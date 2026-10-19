@@ -196,7 +196,6 @@ const reversedMeanings = new Map([
   ["77-錢幣國王.webp", "對成果或物質安全感的追求可能過了頭。回頭確認真正重要的價值，讓穩定不變成控制。"],
 ]);
 
-const heroDrawButton = document.querySelector("#hero-draw-button");
 const drawButton = document.querySelector("#draw-card-button");
 const drawAgainButton = document.querySelector("#draw-again-button");
 const drawResult = document.querySelector("#draw-result");
@@ -230,11 +229,6 @@ function drawOneCard(shouldScroll = false) {
     window.setTimeout(() => drawResult.scrollIntoView({ behavior, block: "center" }), 30);
   }
 }
-
-heroDrawButton?.addEventListener("click", (event) => {
-  event.preventDefault();
-  drawOneCard(true);
-});
 
 drawButton?.addEventListener("click", () => drawOneCard(true));
 drawAgainButton?.addEventListener("click", () => drawOneCard(true));
