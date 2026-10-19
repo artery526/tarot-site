@@ -45,6 +45,20 @@
             <p>在心裡想著最近掛念的事，讓貓咪牌卡陪你看看另一個角度。</p>
           </div>
           <button class="button draw-button" id="draw-card-button" type="button">抽一張牌 <span aria-hidden="true">✦</span></button>
+          <dialog class="ritual-dialog" id="ritual-dialog" aria-labelledby="ritual-title">
+            <div class="ritual-cat" role="img" aria-label="Emily 的貓咪吉祥物陪你準備抽牌"></div>
+            <h2 class="ritual-title" id="ritual-title">抽牌前的小小儀式</h2>
+            <p class="ritual-intro">慢慢準備好，再開始抽牌。</p>
+            <ol class="ritual-steps">
+              <li><span class="ritual-step-number">1</span><span>默念自己的姓名三次</span></li>
+              <li><span class="ritual-step-number">2</span><span>心裡想著想問的問題，問題越清楚越好</span></li>
+              <li><span class="ritual-step-number">3</span><span>深呼吸三次</span></li>
+            </ol>
+            <div class="ritual-actions">
+              <button class="button button-secondary" id="cancel-ritual-button" type="button">先等等</button>
+              <button class="button" id="start-draw-button" type="button">開始抽 <span aria-hidden="true">✦</span></button>
+            </div>
+          </dialog>
           <div class="draw-result" id="draw-result" aria-live="polite" aria-atomic="true" hidden>
             <div class="draw-card-wrap"><img id="draw-card-image" alt="" width="971" height="1620" /></div>
             <div class="draw-reading">

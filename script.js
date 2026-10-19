@@ -198,6 +198,9 @@ const reversedMeanings = new Map([
 
 const drawButton = document.querySelector("#draw-card-button");
 const drawAgainButton = document.querySelector("#draw-again-button");
+const ritualDialog = document.querySelector("#ritual-dialog");
+const startDrawButton = document.querySelector("#start-draw-button");
+const cancelRitualButton = document.querySelector("#cancel-ritual-button");
 const drawResult = document.querySelector("#draw-result");
 const drawImage = document.querySelector("#draw-card-image");
 const drawName = document.querySelector("#draw-card-name");
@@ -230,5 +233,15 @@ function drawOneCard(shouldScroll = false) {
   }
 }
 
-drawButton?.addEventListener("click", () => drawOneCard(true));
-drawAgainButton?.addEventListener("click", () => drawOneCard(true));
+function openRitual() {
+  if (ritualDialog && !ritualDialog.open) ritualDialog.showModal();
+}
+
+drawButton?.addEventListener("click", openRitual);
+drawAgainButton?.addEventListener("click", openRitual);
+cancelRitualButton?.addEventListener("click", () => ritualDialog?.close());
+startDrawButton?.addEventListener("click", () => {
+  if (!ritualDialog?.open) return;
+  ritualDialog.close();
+  drawOneCard(true);
+});

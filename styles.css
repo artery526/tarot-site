@@ -57,6 +57,16 @@ h1 span { color: var(--color-primary); }
 .draw-heading > p:last-child { max-width: 590px; margin-inline: auto; line-height: 1.8; }
 .draw-button { min-width: 170px; }
 .draw-button[hidden] { display: none; }
+.ritual-dialog { width: min(92vw, 520px); max-height: 88vh; max-height: 88dvh; padding: clamp(20px, 5vw, 30px); overflow-y: auto; border: 1px solid rgb(209 157 116 / 30%); border-radius: 26px; background: var(--color-white); color: var(--color-text); box-shadow: 0 24px 70px rgb(91 65 52 / 25%); text-align: center; }
+.ritual-dialog::backdrop { background: rgb(91 65 52 / 42%); backdrop-filter: blur(4px); }
+.ritual-cat { width: 112px; aspect-ratio: 1287 / 1222; margin: 0 auto 10px; background: url("./assets/animations/emily-listening-cat-sprite.png") 0 0 / 200% 200% no-repeat; }
+.ritual-title { margin: 0; font-size: clamp(1.35rem, 4vw, 1.75rem); }
+.ritual-intro { margin: 8px 0 0; color: var(--color-muted); font-size: .92rem; }
+.ritual-steps { display: grid; gap: 10px; margin: 20px 0 24px; padding: 0; list-style: none; text-align: left; }
+.ritual-steps li { min-height: 58px; padding: 10px 14px; display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: center; gap: 12px; border-radius: 16px; background: var(--color-soft); line-height: 1.65; }
+.ritual-step-number { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--color-sunshine); color: #a96c4e; font-weight: 800; }
+.ritual-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ritual-actions .button { min-width: 122px; }
 .draw-result { max-width: 760px; margin: 38px auto 0; padding: 26px; display: grid; grid-template-columns: minmax(180px, 250px) minmax(0, 1fr); align-items: center; gap: clamp(24px, 5vw, 48px); text-align: left; border: 1px solid rgb(209 157 116 / 24%); border-radius: 26px; background: rgb(255 253 248 / 88%); box-shadow: var(--shadow); animation: draw-appear .45s ease both; }
 .draw-result[hidden] { display: none; }
 .draw-card-wrap { width: 100%; max-width: 250px; justify-self: center; overflow: hidden; border: 5px solid #fffdf8; border-radius: 12px; box-shadow: 0 12px 28px rgb(121 85 72 / 19%); }
@@ -138,6 +148,8 @@ h3 { margin: 0; font-size: 1.12rem; }
   .plan-card { grid-template-columns: 42px minmax(0, 1fr); gap: 4px 12px; padding: 17px; }
   .plan-icon { width: 42px; height: 42px; }
   .about { grid-template-columns: minmax(88px, 30%) minmax(0, 1fr); gap: 10px; }
+  .ritual-dialog { padding: 18px 14px; }
+  .ritual-steps li { padding-inline: 10px; gap: 9px; font-size: .92rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
