@@ -26,14 +26,36 @@
           <p class="eyebrow"><span>✦</span> 給正在找方向的你</p>
           <h1>讓塔羅陪你<br /><span>聊聊心事</span></h1>
           <p class="hero-lead">用一張牌，找到屬於自己的溫柔指引。</p>
-          <a class="button" href="#services">免費抽一張牌 <span aria-hidden="true">→</span></a>
-          <p class="button-note">體驗版尚未開放，先看看真人解讀方案吧</p>
+          <a class="button" href="#free-draw" id="hero-draw-button">免費抽一張牌 <span aria-hidden="true">→</span></a>
+          <p class="button-note">不用註冊，抽一張牌，給今天一點溫柔提醒</p>
         </div>
         <div class="hero-art" role="img" aria-label="月亮與星星陪伴著一張塔羅牌的插畫">
           <span class="sparkle sparkle-one">✦</span><span class="sparkle sparkle-two">✧</span>
           <div class="moon">☾</div>
           <div class="tarot-card"><span class="card-star">✷</span><span class="card-cat">🐈</span><span class="card-title">THE<br />GENTLE<br />GUIDE</span><span class="card-flower">✿</span></div>
           <span class="art-caption">慢慢來，你會找到答案。</span>
+        </div>
+      </section>
+
+      <section class="free-draw" id="free-draw" aria-labelledby="draw-heading">
+        <div class="container draw-inner">
+          <div class="section-heading draw-heading">
+            <p class="eyebrow">A LITTLE MOMENT FOR YOU</p>
+            <h2 id="draw-heading">先深呼吸，再抽一張牌</h2>
+            <p>在心裡想著最近掛念的事，讓貓咪牌卡陪你看看另一個角度。</p>
+          </div>
+          <button class="button draw-button" id="draw-card-button" type="button">抽一張牌 <span aria-hidden="true">✦</span></button>
+          <div class="draw-result" id="draw-result" aria-live="polite" aria-atomic="true" hidden>
+            <div class="draw-card-wrap"><img id="draw-card-image" alt="" width="971" height="1620" /></div>
+            <div class="draw-reading">
+              <p class="draw-kicker">YOUR GENTLE GUIDANCE</p>
+              <p class="draw-position" id="draw-card-position"></p>
+              <h3 id="draw-card-name"></h3>
+              <p class="draw-meaning" id="draw-card-meaning"></p>
+              <p class="draw-note">把這張牌當成自我整理的靈感，不必視為固定的預言。</p>
+              <button class="button button-secondary" id="draw-again-button" type="button">再抽一張 <span aria-hidden="true">↻</span></button>
+            </div>
+          </div>
         </div>
       </section>
 
