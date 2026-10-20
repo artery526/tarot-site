@@ -218,7 +218,11 @@ function drawOneCard(shouldScroll = false) {
   const isReversed = Math.random() < 0.5;
   previousCardIndex = selectedIndex;
 
-  drawImage.src = new URL(`./assets/tarot-cards/${card.file}`, document.baseURI).href;
+  const cardImageUrl = new URL(`./assets/tarot-cards/${card.file}`, document.baseURI);
+  if (["00-愚者.webp", "08-力量.webp", "19-太陽.webp"].includes(card.file)) {
+    cardImageUrl.searchParams.set("v", "20261020-1");
+  }
+  drawImage.src = cardImageUrl.href;
   drawImage.alt = `${card.name}${isReversed ? "逆位" : "正位"}，暖暖貓咪塔羅牌`;
   drawCardFrame?.classList.toggle("is-reversed", isReversed);
   drawName.textContent = card.name;
