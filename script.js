@@ -17,6 +17,38 @@ navigation?.querySelectorAll("a").forEach((link) => {
 });
 
 const listeningCat = document.querySelector(".listening-cat .cat-still");
+const catMessage = document.querySelector("#cat-message");
+
+if (catMessage) {
+  const warmMessages = [
+    "今天也辛苦了，先好好抱抱自己。",
+    "不用急著變好，現在的你也很珍貴。",
+    "累了就歇一會兒，我陪你聽聽心事。",
+    "心情沒有對錯，讓它慢慢停靠也可以。",
+    "今天不必完美，平安走到這裡就很好。",
+    "每一步都算數，慢一點也沒關係。",
+    "你值得被理解，也值得被好好照顧。",
+    "把別人的期待放一旁，聽聽自己的聲音。",
+    "不管今天如何，都記得留一點溫柔給自己。",
+    "願你心裡的小雨，慢慢等到晴天。",
+    "你已經很努力了，接下來也讓我陪著你。",
+    "先深呼吸吧，答案可以慢慢來。",
+  ];
+
+  try {
+    const storageKey = "emilyTarotLastCatMessage";
+    const previousValue = window.localStorage.getItem(storageKey);
+    const previousIndex = previousValue === null ? -1 : Number(previousValue);
+    let nextIndex = Math.floor(Math.random() * warmMessages.length);
+    if (warmMessages.length > 1 && nextIndex === previousIndex) {
+      nextIndex = (nextIndex + 1 + Math.floor(Math.random() * (warmMessages.length - 1))) % warmMessages.length;
+    }
+    catMessage.textContent = warmMessages[nextIndex];
+    window.localStorage.setItem(storageKey, String(nextIndex));
+  } catch {
+    catMessage.textContent = warmMessages[Math.floor(Math.random() * warmMessages.length)];
+  }
+}
 
 if (listeningCat) {
   const framePaths = [1, 2, 3, 4].map((frame) => `./assets/animations/emily-listening-cat-frame-${frame}.png`);
