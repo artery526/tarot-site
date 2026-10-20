@@ -233,6 +233,66 @@ const tarotCards = [
   { file: "77-錢幣國王.webp", name: "錢幣國王", meaning: "踏實的規劃能支持長期目標。分享經驗與資源，讓穩定也能照亮身邊的人。" },
 ];
 
+const classroomGroups = [
+  { label: "大阿爾克那", start: 0, end: 21, open: true },
+  { label: "權杖", start: 22, end: 35 },
+  { label: "聖杯", start: 36, end: 49 },
+  { label: "寶劍", start: 50, end: 63 },
+  { label: "錢幣", start: 64, end: 77 },
+];
+const classroomGroupsElement = document.querySelector("#classroom-groups");
+
+if (classroomGroupsElement) {
+  const foolVideoUrl = "https://vt.tiktok.com/ZSgSNw4XV/";
+
+  classroomGroups.forEach((group) => {
+    const details = document.createElement("details");
+    details.className = "classroom-group";
+    details.open = Boolean(group.open);
+
+    const summary = document.createElement("summary");
+    summary.append(document.createTextNode(group.label));
+    const count = document.createElement("span");
+    count.className = "classroom-count";
+    const cards = tarotCards.filter((card) => {
+      const number = Number(card.file.match(/^\d+/)?.[0]);
+      return number >= group.start && number <= group.end;
+    });
+    count.textContent = `${cards.length} 張`;
+    summary.append(count);
+
+    const list = document.createElement("div");
+    list.className = "classroom-card-list";
+    cards.forEach((card) => {
+      const number = Number(card.file.match(/^\d+/)?.[0]);
+      const title = number <= 21 ? `${number}｜${card.name.split("｜").at(-1)}` : card.name;
+      const item = document.createElement(number === 0 ? "a" : "button");
+      item.className = "classroom-card";
+      if (number === 0) {
+        item.href = foolVideoUrl;
+        item.target = "_blank";
+        item.rel = "noopener noreferrer";
+        item.setAttribute("aria-label", `${title}，在新分頁觀看 Emily 的愚者短影片`);
+      } else {
+        item.type = "button";
+        item.disabled = true;
+        item.title = "這張牌的影片準備中";
+      }
+
+      const name = document.createElement("span");
+      name.textContent = title;
+      const badge = document.createElement("span");
+      badge.className = "classroom-card-badge";
+      badge.textContent = number === 0 ? "▶ 看短片" : "準備中";
+      item.append(name, badge);
+      list.append(item);
+    });
+
+    details.append(summary, list);
+    classroomGroupsElement.append(details);
+  });
+}
+
 const reversedMeanings = new Map([
   // 大阿爾克那
   ["00-愚者.webp", "想開始新事物時，先確認現實條件與安全感。稍作準備，能讓冒險走得更安心。"],

@@ -34,6 +34,7 @@ a { color: inherit; }
 .menu-toggle { display: none; }
 .hero { min-height: 530px; padding-block: 62px 74px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }
 .hero-copy { padding-left: clamp(0px, 4vw, 50px); }
+.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .eyebrow { margin: 0 0 18px; color: #b88161; font-size: .8rem; font-weight: 800; letter-spacing: .15em; }
 .eyebrow span { color: var(--color-primary); }
 h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.28; letter-spacing: .04em; }
@@ -81,8 +82,27 @@ h1 span { color: var(--color-primary); }
 .draw-note { margin: 0 0 22px; color: var(--color-muted); font-size: .8rem; line-height: 1.7; }
 .button-secondary { background: #c58e6d; box-shadow: 0 8px 18px rgb(121 85 72 / 12%); }
 .button-secondary:hover { background: #ad7758; }
+.classroom-button { min-height: 46px; gap: 8px; padding-inline: 17px; border: 1px solid rgb(197 142 109 / 38%); background: #fffdf8; color: #9b6d52; box-shadow: none; font-size: .9rem; }
+.classroom-button:hover { background: #fff1dc; }
 @keyframes draw-appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 .services { background: #fff3e1; }
+.classroom-section { background: #fffaf1; border-block: 1px solid rgb(209 157 116 / 15%); }
+.classroom-section .section-inner { padding-block: 66px 70px; }
+.classroom-groups { display: grid; gap: 13px; max-width: 980px; margin-inline: auto; }
+.classroom-group { overflow: hidden; border: 1px solid rgb(209 157 116 / 30%); border-radius: 18px; background: rgb(255 253 248 / 88%); }
+.classroom-group summary { min-height: 58px; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--color-text); font-weight: 800; cursor: pointer; list-style: none; }
+.classroom-group summary::-webkit-details-marker { display: none; }
+.classroom-group summary::after { content: "＋"; color: #c58e6d; font-size: 1.15rem; }
+.classroom-group[open] summary::after { content: "－"; }
+.classroom-count { margin-left: auto; color: var(--color-muted); font-size: .8rem; font-weight: 500; }
+.classroom-card-list { padding: 0 16px 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.classroom-card { min-height: 54px; padding: 9px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; border: 1px solid rgb(209 157 116 / 22%); border-radius: 13px; background: #fff8eb; color: var(--color-text); font: inherit; font-size: .88rem; text-align: left; text-decoration: none; }
+a.classroom-card { transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+a.classroom-card:hover { transform: translateY(-2px); border-color: #e9b28e; background: #fff1dc; }
+.classroom-card-badge { flex: 0 0 auto; color: #bd8b63; font-size: .68rem; }
+.classroom-card:disabled { color: #9b897d; cursor: not-allowed; opacity: .78; }
+.classroom-card:disabled .classroom-card-badge { color: #b8a89c; }
+.classroom-note { margin: 18px 0 0; color: var(--color-muted); font-size: .82rem; text-align: center; }
 .section-inner { padding-block: 76px 82px; }
 .section-heading { margin-bottom: 34px; text-align: center; }
 .section-heading .eyebrow { margin-bottom: 9px; }
@@ -124,6 +144,8 @@ h3 { margin: 0; font-size: 1.12rem; }
   .nav-links a { padding: 13px 4px; }
   .hero { min-height: 0; padding-block: 45px 53px; grid-template-columns: 1fr; gap: 30px; }
   .hero-copy { padding-left: 0; text-align: center; }
+  .hero-actions { justify-content: center; gap: 9px; }
+  .hero-actions .button { padding-inline: 17px; }
   .hero-copy .eyebrow { margin-bottom: 13px; }
   h1 { font-size: clamp(2.35rem, 11vw, 3.2rem); }
   .hero-lead { margin: 14px 0 21px; }
@@ -137,6 +159,10 @@ h3 { margin: 0; font-size: 1.12rem; }
   .draw-meaning { margin-block: 13px 14px; font-size: .98rem; }
   .draw-note { margin-bottom: 18px; }
   .section-inner { padding-block: 57px 61px; }
+  .classroom-section .section-inner { padding-block: 53px 58px; }
+  .classroom-group summary { min-height: 54px; padding-inline: 15px; }
+  .classroom-card-list { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-inline: 11px; }
+  .classroom-card { min-height: 52px; padding-inline: 10px; font-size: .82rem; }
   .section-heading { margin-bottom: 27px; }
   .plan-grid { max-width: 420px; grid-template-columns: 1fr; gap: 15px; }
   .plan-card { min-height: 0; padding: 20px; }
