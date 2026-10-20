@@ -243,7 +243,7 @@ const classroomGroups = [
 const classroomGroupsElement = document.querySelector("#classroom-groups");
 
 if (classroomGroupsElement) {
-  const foolVideoUrl = "https://vt.tiktok.com/ZSgSNw4XV/";
+  const foolVideoUrl = "https://vt.tiktok.com/ZSgS6kSmY/";
 
   classroomGroups.forEach((group) => {
     const details = document.createElement("details");
