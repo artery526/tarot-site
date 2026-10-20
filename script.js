@@ -246,6 +246,7 @@ if (classroomGroupsElement) {
   const lessonVideoUrls = {
     0: "https://vt.tiktok.com/ZSgS6kSmY/",
     1: "https://vt.tiktok.com/ZSgSXFRHr/",
+    2: "https://vt.tiktok.com/ZSgA6oCFG/",
   };
 
   classroomGroups.forEach((group) => {
