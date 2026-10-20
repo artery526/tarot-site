@@ -59,7 +59,7 @@ h1 span { color: var(--color-primary); }
 .draw-button[hidden] { display: none; }
 .ritual-dialog { width: min(92vw, 520px); max-height: 88vh; max-height: 88dvh; padding: clamp(20px, 5vw, 30px); overflow-y: auto; border: 1px solid rgb(209 157 116 / 30%); border-radius: 26px; background: var(--color-white); color: var(--color-text); box-shadow: 0 24px 70px rgb(91 65 52 / 25%); text-align: center; }
 .ritual-dialog::backdrop { background: rgb(91 65 52 / 42%); backdrop-filter: blur(4px); }
-.ritual-cat { width: 112px; aspect-ratio: 1287 / 1222; margin: 0 auto 10px; background: url("./assets/animations/emily-listening-cat-sprite.png") 0 0 / 200% 200% no-repeat; }
+.ritual-cat { width: 112px; aspect-ratio: 1287 / 1222; margin: 0 auto 10px; background: url("./assets/animations/emily-listening-cat-sprite.png?v=20261020-1") 0 0 / 200% 200% no-repeat; }
 .ritual-title { margin: 0; font-size: clamp(1.35rem, 4vw, 1.75rem); }
 .ritual-intro { margin: 8px 0 0; color: var(--color-muted); font-size: .92rem; }
 .ritual-steps { display: grid; gap: 10px; margin: 20px 0 24px; padding: 0; list-style: none; text-align: left; }
@@ -100,8 +100,8 @@ h3 { margin: 0; font-size: 1.12rem; }
 .about { position: relative; min-height: 225px; padding-block: 24px; display: grid; grid-template-columns: minmax(150px, 220px) auto; align-items: center; justify-content: center; gap: clamp(20px, 5vw, 58px); text-align: left; }
 .about p { margin: 0; font-size: clamp(1.2rem, 3vw, 1.65rem); font-weight: 700; line-height: 1.8; letter-spacing: .06em; }
 .about-flower, .about-stars { color: #d9a66e; }.about-flower { position: absolute; top: 42px; left: 18%; font-size: 28px; }.about-stars { display: inline-block; margin-top: 13px; letter-spacing: .4em; }
-.listening-cat { width: min(100%, 220px); aspect-ratio: 1287 / 1222; justify-self: center; background: url("./assets/animations/emily-listening-cat-sprite.png") 0 0 / 200% 200% no-repeat; animation: listening-cat 3.6s steps(1, end) infinite; }
-@keyframes listening-cat { 0%, 100% { background-position: 0% 0%; } 25% { background-position: 100% 0%; } 50% { background-position: 0% 100%; } 75% { background-position: 100% 100%; } }
+.listening-cat { width: min(100%, 220px); aspect-ratio: 1287 / 1222; justify-self: center; background: url("./assets/animations/emily-listening-cat-sprite.png?v=20261020-1") 0 0 / 200% 200% no-repeat; animation: listening-cat 4.8s steps(1, end) infinite; }
+@keyframes listening-cat { 0%, 12%, 18%, 46%, 82%, 100% { background-position: 0% 0%; } 14% { background-position: 100% 0%; } 48% { background-position: 0% 100%; } 65% { background-position: 100% 100%; } }
 .site-footer { padding: 26px 0; background: #f8dda8; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; }
 .footer-brand { font-size: .91rem; }.footer-brand .brand-mark { width: 28px; height: 28px; font-size: 18px; background: rgb(255 255 255 / 50%); }
