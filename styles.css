@@ -59,7 +59,7 @@ h1 span { color: var(--color-primary); }
 .draw-button[hidden] { display: none; }
 .ritual-dialog { width: min(92vw, 520px); max-height: 88vh; max-height: 88dvh; padding: clamp(20px, 5vw, 30px); overflow-y: auto; border: 1px solid rgb(209 157 116 / 30%); border-radius: 26px; background: var(--color-white); color: var(--color-text); box-shadow: 0 24px 70px rgb(91 65 52 / 25%); text-align: center; }
 .ritual-dialog::backdrop { background: rgb(91 65 52 / 42%); backdrop-filter: blur(4px); }
-.ritual-cat { width: 112px; aspect-ratio: 1287 / 1222; margin: 0 auto 10px; background: url("./assets/animations/emily-listening-cat-sprite.png?v=20261020-1") 0 0 / 200% 200% no-repeat; }
+.ritual-cat { width: 112px; aspect-ratio: 643 / 611; margin: 0 auto 10px; background: url("./assets/animations/emily-listening-cat-frame-1.png") center / 100% 100% no-repeat; }
 .ritual-title { margin: 0; font-size: clamp(1.35rem, 4vw, 1.75rem); }
 .ritual-intro { margin: 8px 0 0; color: var(--color-muted); font-size: .92rem; }
 .ritual-steps { display: grid; gap: 10px; margin: 20px 0 24px; padding: 0; list-style: none; text-align: left; }
@@ -100,8 +100,16 @@ h3 { margin: 0; font-size: 1.12rem; }
 .about { position: relative; min-height: 225px; padding-block: 24px; display: grid; grid-template-columns: minmax(150px, 220px) auto; align-items: center; justify-content: center; gap: clamp(20px, 5vw, 58px); text-align: left; }
 .about p { margin: 0; font-size: clamp(1.2rem, 3vw, 1.65rem); font-weight: 700; line-height: 1.8; letter-spacing: .06em; }
 .about-flower, .about-stars { color: #d9a66e; }.about-flower { position: absolute; top: 42px; left: 18%; font-size: 28px; }.about-stars { display: inline-block; margin-top: 13px; letter-spacing: .4em; }
-.listening-cat { width: min(100%, 220px); aspect-ratio: 1287 / 1222; justify-self: center; background: url("./assets/animations/emily-listening-cat-sprite.png?v=20261020-1") 0 0 / 200% 200% no-repeat; animation: listening-cat 4.8s steps(1, end) infinite; }
-@keyframes listening-cat { 0%, 12%, 18%, 46%, 82%, 100% { background-position: 0% 0%; } 14% { background-position: 100% 0%; } 48% { background-position: 0% 100%; } 65% { background-position: 100% 100%; } }
+.listening-cat { position: relative; width: min(100%, 220px); aspect-ratio: 643 / 611; justify-self: center; }
+.listening-cat .cat-frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
+.listening-cat .cat-frame-1 { animation: listen-frame-1 4.8s linear infinite; }
+.listening-cat .cat-frame-2 { animation: listen-frame-2 4.8s linear infinite; }
+.listening-cat .cat-frame-3 { animation: listen-frame-3 4.8s linear infinite; }
+.listening-cat .cat-frame-4 { animation: listen-frame-4 4.8s linear infinite; }
+@keyframes listen-frame-1 { 0%, 10% { opacity: 1; } 12%, 17% { opacity: 0; } 19%, 45% { opacity: 1; } 47%, 80% { opacity: 0; } 82%, 100% { opacity: 1; } }
+@keyframes listen-frame-2 { 0%, 10% { opacity: 0; } 12%, 17% { opacity: 1; } 19%, 100% { opacity: 0; } }
+@keyframes listen-frame-3 { 0%, 45% { opacity: 0; } 47%, 61% { opacity: 1; } 63%, 100% { opacity: 0; } }
+@keyframes listen-frame-4 { 0%, 62% { opacity: 0; } 64%, 78% { opacity: 1; } 80%, 100% { opacity: 0; } }
 .site-footer { padding: 26px 0; background: #f8dda8; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; }
 .footer-brand { font-size: .91rem; }.footer-brand .brand-mark { width: 28px; height: 28px; font-size: 18px; background: rgb(255 255 255 / 50%); }
@@ -154,5 +162,6 @@ h3 { margin: 0; font-size: 1.12rem; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-  .listening-cat { animation: none; background-position: 0% 0%; }
+  .listening-cat .cat-frame { animation: none; opacity: 0; }
+  .listening-cat .cat-frame-1 { opacity: 1; }
 }
