@@ -106,10 +106,10 @@ h3 { margin: 0; font-size: 1.12rem; }
 .listening-cat .cat-frame-2 { animation: listen-frame-2 4.8s linear infinite; }
 .listening-cat .cat-frame-3 { animation: listen-frame-3 4.8s linear infinite; }
 .listening-cat .cat-frame-4 { animation: listen-frame-4 4.8s linear infinite; }
-@keyframes listen-frame-1 { 0%, 10% { opacity: 1; } 12%, 17% { opacity: 0; } 19%, 45% { opacity: 1; } 47%, 80% { opacity: 0; } 82%, 100% { opacity: 1; } }
-@keyframes listen-frame-2 { 0%, 10% { opacity: 0; } 12%, 17% { opacity: 1; } 19%, 100% { opacity: 0; } }
-@keyframes listen-frame-3 { 0%, 45% { opacity: 0; } 47%, 61% { opacity: 1; } 63%, 100% { opacity: 0; } }
-@keyframes listen-frame-4 { 0%, 62% { opacity: 0; } 64%, 78% { opacity: 1; } 80%, 100% { opacity: 0; } }
+@keyframes listen-frame-1 { 0%, 10%, 20%, 46% { opacity: 1; } 14%, 16%, 50%, 76% { opacity: 0; } 80%, 100% { opacity: 1; } }
+@keyframes listen-frame-2 { 0%, 10% { opacity: 0; } 14%, 16% { opacity: 1; } 20%, 100% { opacity: 0; } }
+@keyframes listen-frame-3 { 0%, 46% { opacity: 0; } 50%, 60% { opacity: 1; } 64%, 100% { opacity: 0; } }
+@keyframes listen-frame-4 { 0%, 60% { opacity: 0; } 64%, 76% { opacity: 1; } 80%, 100% { opacity: 0; } }
 .site-footer { padding: 26px 0; background: #f8dda8; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; }
 .footer-brand { font-size: .91rem; }.footer-brand .brand-mark { width: 28px; height: 28px; font-size: 18px; background: rgb(255 255 255 / 50%); }
