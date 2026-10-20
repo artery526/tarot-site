@@ -243,7 +243,10 @@ const classroomGroups = [
 const classroomGroupsElement = document.querySelector("#classroom-groups");
 
 if (classroomGroupsElement) {
-  const foolVideoUrl = "https://vt.tiktok.com/ZSgS6kSmY/";
+  const lessonVideoUrls = {
+    0: "https://vt.tiktok.com/ZSgS6kSmY/",
+    1: "https://vt.tiktok.com/ZSgSXFRHr/",
+  };
 
   classroomGroups.forEach((group) => {
     const details = document.createElement("details");
@@ -266,13 +269,14 @@ if (classroomGroupsElement) {
     cards.forEach((card) => {
       const number = Number(card.file.match(/^\d+/)?.[0]);
       const title = number <= 21 ? `${number}｜${card.name.split("｜").at(-1)}` : card.name;
-      const item = document.createElement(number === 0 ? "a" : "button");
+      const videoUrl = lessonVideoUrls[number];
+      const item = document.createElement(videoUrl ? "a" : "button");
       item.className = "classroom-card";
-      if (number === 0) {
-        item.href = foolVideoUrl;
+      if (videoUrl) {
+        item.href = videoUrl;
         item.target = "_blank";
         item.rel = "noopener noreferrer";
-        item.setAttribute("aria-label", `${title}，在新分頁觀看 Emily 的愚者短影片`);
+        item.setAttribute("aria-label", `${title}，在新分頁觀看 Emily 的短影片`);
       } else {
         item.type = "button";
         item.disabled = true;
@@ -283,7 +287,7 @@ if (classroomGroupsElement) {
       name.textContent = title;
       const badge = document.createElement("span");
       badge.className = "classroom-card-badge";
-      badge.textContent = number === 0 ? "▶ 看短片" : "準備中";
+      badge.textContent = videoUrl ? "▶ 看短片" : "準備中";
       item.append(name, badge);
       list.append(item);
     });
