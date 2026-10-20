@@ -16,6 +16,101 @@ navigation?.querySelectorAll("a").forEach((link) => {
   });
 });
 
+const listeningCat = document.querySelector(".listening-cat .cat-still");
+
+if (listeningCat) {
+  const framePaths = [1, 2, 3, 4].map((frame) => `./assets/animations/emily-listening-cat-frame-${frame}.png`);
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let animationTimer;
+  let finishWait;
+  let animationRun = 0;
+  let frameImagesPromise;
+
+  const wait = (duration, run) => new Promise((resolve) => {
+    const finish = () => {
+      window.clearTimeout(animationTimer);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      if (finishWait === finish) finishWait = null;
+      resolve();
+    };
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        window.clearTimeout(animationTimer);
+        animationTimer = null;
+      } else if (!animationTimer && run === animationRun) {
+        animationTimer = window.setTimeout(finish, duration);
+      }
+    };
+
+    finishWait = finish;
+    animationTimer = document.hidden ? null : window.setTimeout(finish, duration);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+  });
+  const randomBetween = (min, max) => Math.round(min + Math.random() * (max - min));
+
+  function preloadFrames() {
+    if (!frameImagesPromise) {
+      frameImagesPromise = Promise.all(framePaths.map(async (src) => {
+        const frame = new Image();
+        frame.src = src;
+        await frame.decode();
+        return frame;
+      }));
+    }
+    return frameImagesPromise;
+  }
+
+  async function animateListeningCat(run) {
+    const frameImages = await preloadFrames();
+    let lastAction = "blink";
+    while (run === animationRun && !prefersReducedMotion.matches) {
+      await wait(randomBetween(5000, 8500), run);
+      if (run !== animationRun || document.hidden || prefersReducedMotion.matches) continue;
+
+      const action = lastAction === "blink" ? "listen" : Math.random() < 0.62 ? "blink" : "playful";
+      lastAction = action;
+
+      if (action === "blink") {
+        listeningCat.src = frameImages[1].src;
+        await wait(150, run);
+      } else {
+        const frameIndex = action === "listen" ? 2 : 3;
+        listeningCat.src = frameImages[frameIndex].src;
+        await wait(action === "listen" ? randomBetween(850, 1200) : 650, run);
+      }
+
+      if (run !== animationRun || document.hidden || prefersReducedMotion.matches) continue;
+      listeningCat.src = frameImages[0].src;
+    }
+  }
+
+  function stopAnimation() {
+    animationRun += 1;
+    finishWait?.();
+    listeningCat.src = framePaths[0];
+  }
+
+  function startAnimation() {
+    if (document.hidden || prefersReducedMotion.matches) return;
+    const run = ++animationRun;
+    animateListeningCat(run).catch(() => {
+      // Keep the still fallback if an optional animation frame cannot load.
+    });
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopAnimation();
+    else startAnimation();
+  });
+
+  prefersReducedMotion.addEventListener("change", () => {
+    if (prefersReducedMotion.matches) stopAnimation();
+    else startAnimation();
+  });
+
+  startAnimation();
+}
+
 const tarotCards = [
   // 大阿爾克那
   { file: "00-愚者.webp", name: "0｜愚者", meaning: "新的旅程正等著你。帶著好奇心往前走，也記得留意腳下的路。" },
