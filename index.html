@@ -118,6 +118,9 @@
             <label for="inquiry-question">想詢問的內容</label>
             <textarea id="inquiry-question" name="question" rows="5" maxlength="2000" required></textarea>
             <p class="inquiry-field-hint">送出後，資料會記錄在「塔羅小屋」分頁供 Emily 回覆；請勿填寫不相關的高度敏感資訊。</p>
+            <label id="inquiry-math-question" for="inquiry-math-answer">送出前小確認</label>
+            <input id="inquiry-math-answer" name="challengeAnswer" type="number" inputmode="numeric" min="2" max="18" step="1" required />
+            <p class="inquiry-field-hint">請回答上方的簡單加法，確認不是誤觸送出。</p>
             <p class="inquiry-feedback" id="inquiry-submit-feedback" role="status" aria-live="polite"></p>
             <div class="inquiry-actions">
               <button class="button button-secondary" id="back-to-order" type="button">返回上一步</button>

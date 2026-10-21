@@ -36,7 +36,7 @@ function verifyOrder_(payload) {
   const order = findEligibleOrder_(orderNumber, type);
   if (!order) return output_({ ok: false, code: "ORDER_NOT_ELIGIBLE" }, 400);
   if (hasSubmittedInquiry_(orderNumber)) return output_({ ok: false, code: "ALREADY_USED" }, 409);
-  return output_({ ok: true });
+  return output_({ ok: true, challenge: createArithmeticChallenge_() });
 }
 
 function submitInquiry_(payload) {
@@ -45,6 +45,8 @@ function submitInquiry_(payload) {
   const name = cleanText_(payload.name, 80);
   const email = cleanText_(payload.email, 254).toLowerCase();
   const question = cleanText_(payload.question, 2000);
+  const challengeToken = cleanText_(payload.challengeToken, 80);
+  const challengeAnswer = cleanText_(payload.challengeAnswer, 3);
   if (!orderNumber || !type || !name || !isValidEmail_(email) || !question) {
     return output_({ ok: false, code: "INVALID_INPUT" }, 400);
   }
@@ -56,6 +58,9 @@ function submitInquiry_(payload) {
     if (!order) return output_({ ok: false, code: "ORDER_NOT_ELIGIBLE" }, 400);
     if (order.email.toLowerCase() !== email) return output_({ ok: false, code: "EMAIL_MISMATCH" }, 400);
     if (hasSubmittedInquiry_(orderNumber)) return output_({ ok: false, code: "ALREADY_USED" }, 409);
+    if (!verifyArithmeticChallenge_(challengeToken, challengeAnswer)) {
+      return output_({ ok: false, code: "INVALID_CHALLENGE" }, 400);
+    }
 
     const sheet = SpreadsheetApp.openById(TAROT_INQUIRY_CONFIG.spreadsheetId)
       .getSheetByName(TAROT_INQUIRY_CONFIG.inquiriesSheet);
@@ -113,11 +118,39 @@ function hasSubmittedInquiry_(orderNumber) {
 
 function allowRequest_(clientIp) {
   const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, clientIp);
-  const key = "tarot_inquiry_rate_" + Utilities.base64EncodeWebSafe(digest).slice(0, 32);
+  const key = "tarot_inquiry_rate_v2_" + Utilities.base64EncodeWebSafe(digest).slice(0, 32);
   const cache = CacheService.getScriptCache();
   const current = Number(cache.get(key) || 0);
   if (current >= 10) return false;
-  cache.put(key, String(current + 1), 600);
+  cache.put(key, String(current + 1), 60);
+  return true;
+}
+
+function createArithmeticChallenge_() {
+  const left = Math.floor(Math.random() * 9) + 1;
+  const right = Math.floor(Math.random() * 9) + 1;
+  const token = Utilities.getUuid();
+  CacheService.getScriptCache().put("tarot_inquiry_challenge_" + token, String(left + right), 600);
+  return { token: token, left: left, right: right };
+}
+
+function verifyArithmeticChallenge_(token, answer) {
+  if (!token || !/^\d{1,2}$/.test(answer)) return false;
+  const cache = CacheService.getScriptCache();
+  const key = "tarot_inquiry_challenge_" + token;
+  const expected = cache.get(key);
+  if (expected === null) return false;
+
+  const attemptsKey = key + "_attempts";
+  const attempts = Number(cache.get(attemptsKey) || 0);
+  if (attempts >= 3) return false;
+  if (Number(answer) !== Number(expected)) {
+    cache.put(attemptsKey, String(attempts + 1), 600);
+    return false;
+  }
+
+  cache.remove(key);
+  cache.remove(attemptsKey);
   return true;
 }
 
@@ -153,7 +186,7 @@ function isValidEmail_(email) {
 }
 
 function safeCellText_(value) {
-  return /^[=+\-@]/.test(value) ? `'${value}` : value;
+  return /^[=+\-@]/.test(value) ? "'" + value : value;
 }
 
 function output_(value, status) {

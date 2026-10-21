@@ -311,9 +311,12 @@ const inquiryTypeInput = document.querySelector("#inquiry-type");
 const inquirySuccess = document.querySelector("#inquiry-success");
 const inquiryOrderFeedback = document.querySelector("#inquiry-order-feedback");
 const inquirySubmitFeedback = document.querySelector("#inquiry-submit-feedback");
+const inquiryMathQuestion = document.querySelector("#inquiry-math-question");
+const inquiryMathAnswer = document.querySelector("#inquiry-math-answer");
 const verifyOrderButton = document.querySelector("#verify-order-button");
 const sendInquiryButton = document.querySelector("#send-inquiry-button");
 let selectedInquiryType = "";
+let inquiryMathChallengeToken = "";
 
 function setInquiryBusy(button, busy, busyLabel) {
   if (!button) return;
@@ -349,8 +352,9 @@ function inquiryErrorMessage(code) {
     ORDER_NOT_ELIGIBLE: "目前無法驗證這筆訂單。請確認編號、訂單狀態與方案門檻，或聯繫 Emily。",
     ALREADY_USED: "這筆訂單已送出過詢問。如需協助，請聯繫 Emily。",
     EMAIL_MISMATCH: "Email 與訂單資料不符，請確認下單時使用的信箱。",
+    INVALID_CHALLENGE: "算數答案不正確或已過期，請返回重新驗證訂單。",
     INVALID_INPUT: "請檢查欄位內容後再試一次。",
-    RATE_LIMITED: "操作次數較多，請稍候幾分鐘再試。",
+    RATE_LIMITED: "驗證次數較多，請一分鐘後再試。",
     SERVICE_UNAVAILABLE: "詢問服務暫時無法確認結果。若剛才正在送出，請先聯繫 Emily 確認是否收到，避免重複提交。",
   };
   return messages[code] || messages.SERVICE_UNAVAILABLE;
@@ -381,7 +385,11 @@ inquiryOrderForm?.addEventListener("submit", async (event) => {
   setInquiryBusy(verifyOrderButton, true, "核對中…");
   try {
     const orderNumber = inquiryOrderNumber.value.trim();
-    await sendInquiryRequest("verify", { orderNumber, type: selectedInquiryType });
+    const result = await sendInquiryRequest("verify", { orderNumber, type: selectedInquiryType });
+    if (!result.challenge?.token) throw new Error("SERVICE_UNAVAILABLE");
+    inquiryMathChallengeToken = result.challenge.token;
+    inquiryMathQuestion.textContent = `送出前小確認：${result.challenge.left} + ${result.challenge.right} = ?`;
+    inquiryMathAnswer.value = "";
     inquiryOrderConfirmed.value = orderNumber;
     inquiryTypeInput.value = selectedInquiryType;
     inquiryOrderForm.hidden = true;
@@ -407,6 +415,8 @@ inquiryDetailsForm?.addEventListener("submit", async (event) => {
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
       question: String(formData.get("question") || "").trim(),
+      challengeToken: inquiryMathChallengeToken,
+      challengeAnswer: String(formData.get("challengeAnswer") || "").trim(),
     });
     inquiryOrderForm.hidden = true;
     inquiryDetailsForm.hidden = true;
@@ -422,6 +432,7 @@ inquiryDetailsForm?.addEventListener("submit", async (event) => {
 document.querySelector("#back-to-order")?.addEventListener("click", () => {
   inquiryDetailsForm.hidden = true;
   inquiryOrderForm.hidden = false;
+  inquiryMathChallengeToken = "";
   inquirySubmitFeedback.textContent = "";
   inquiryOrderNumber?.focus();
 });
@@ -434,6 +445,7 @@ inquiryDialog?.addEventListener("close", () => {
   inquiryOrderForm.hidden = false;
   inquiryDetailsForm.hidden = true;
   inquirySuccess.hidden = true;
+  inquiryMathChallengeToken = "";
   inquiryOrderFeedback.textContent = "";
   inquirySubmitFeedback.textContent = "";
   selectedInquiryType = "";
