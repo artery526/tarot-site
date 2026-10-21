@@ -301,6 +301,21 @@ if (classroomGroupsElement) {
   });
 }
 
+const inquiryNoticeDialog = document.querySelector("#inquiry-notice-dialog");
+const inquiryNoticeMessage = document.querySelector("#inquiry-notice-message");
+const closeInquiryNotice = document.querySelector("#close-inquiry-notice");
+
+document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!inquiryNoticeDialog || inquiryNoticeDialog.open) return;
+    const type = button.dataset.inquiryType;
+    inquiryNoticeMessage.textContent = `${type}表單開放後，會先核對訂單狀態及符合資格的總金額，再讓您填寫問題；目前尚未收集或傳送任何資料。`;
+    inquiryNoticeDialog.showModal();
+  });
+});
+
+closeInquiryNotice?.addEventListener("click", () => inquiryNoticeDialog?.close());
+
 const reversedMeanings = new Map([
   // 大阿爾克那
   ["00-愚者.webp", "想開始新事物時，先確認現實條件與安全感。稍作準備，能讓冒險走得更安心。"],
