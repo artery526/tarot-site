@@ -307,6 +307,8 @@ const orderLookupForm = document.querySelector("#order-lookup-form");
 const orderLookupIdentifier = document.querySelector("#order-lookup-identifier");
 const orderLookupFeedback = document.querySelector("#order-lookup-feedback");
 const orderLookupSubmit = document.querySelector("#lookup-order-submit");
+const ORDER_LOOKUP_COOLDOWN_KEY = "emilyTarotOrderLookupNextAt";
+const ORDER_LOOKUP_COOLDOWN_MS = 60_000;
 const inquiryPlanLabel = document.querySelector("#inquiry-plan-label");
 const inquiryOrderForm = document.querySelector("#inquiry-order-form");
 const inquiryDetailsForm = document.querySelector("#inquiry-details-form");
@@ -322,6 +324,9 @@ const verifyOrderButton = document.querySelector("#verify-order-button");
 const sendInquiryButton = document.querySelector("#send-inquiry-button");
 let selectedInquiryType = "";
 let inquiryMathChallengeToken = "";
+let orderLookupCooldownUntil = 0;
+let orderLookupPending = false;
+let orderLookupCooldownTimer = null;
 
 function setInquiryBusy(button, busy, busyLabel) {
   if (!button) return;
@@ -333,6 +338,41 @@ function setInquiryBusy(button, busy, busyLabel) {
     button.textContent = button.dataset.originalLabel;
     delete button.dataset.originalLabel;
   }
+}
+
+function getOrderLookupCooldownUntil() {
+  try {
+    return Math.max(orderLookupCooldownUntil, Number(localStorage.getItem(ORDER_LOOKUP_COOLDOWN_KEY)) || 0);
+  } catch {
+    return orderLookupCooldownUntil;
+  }
+}
+
+function updateOrderLookupCooldown() {
+  const remaining = Math.max(0, getOrderLookupCooldownUntil() - Date.now());
+  orderLookupSubmit.disabled = orderLookupPending || remaining > 0;
+  orderLookupSubmit.textContent = orderLookupPending
+    ? "查詢中…"
+    : remaining > 0
+      ? `請稍候 ${Math.ceil(remaining / 1000)} 秒`
+      : "查詢進度";
+
+  if (remaining <= 0 && orderLookupCooldownTimer) {
+    window.clearInterval(orderLookupCooldownTimer);
+    orderLookupCooldownTimer = null;
+  } else if (remaining > 0 && !orderLookupCooldownTimer) {
+    orderLookupCooldownTimer = window.setInterval(updateOrderLookupCooldown, 1000);
+  }
+}
+
+function startOrderLookupCooldown() {
+  orderLookupCooldownUntil = Date.now() + ORDER_LOOKUP_COOLDOWN_MS;
+  try {
+    localStorage.setItem(ORDER_LOOKUP_COOLDOWN_KEY, String(orderLookupCooldownUntil));
+  } catch {
+    // Keep the cooldown in memory when browser storage is unavailable.
+  }
+  updateOrderLookupCooldown();
 }
 
 async function sendInquiryRequest(action, body) {
@@ -396,6 +436,7 @@ document.querySelector("#open-order-lookup")?.addEventListener("click", () => {
   if (!orderLookupDialog || orderLookupDialog.open) return;
   orderLookupForm.reset();
   orderLookupFeedback.textContent = "";
+  updateOrderLookupCooldown();
   orderLookupDialog.showModal();
   orderLookupIdentifier.focus();
 });
@@ -422,8 +463,15 @@ orderLookupForm?.addEventListener("submit", async (event) => {
     return;
   }
 
+  if (getOrderLookupCooldownUntil() > Date.now()) {
+    updateOrderLookupCooldown();
+    return;
+  }
+
   orderLookupFeedback.textContent = "正在查詢訂單…";
-  setInquiryBusy(orderLookupSubmit, true, "查詢中…");
+  orderLookupPending = true;
+  updateOrderLookupCooldown();
+  startOrderLookupCooldown();
   try {
     const endpoint = "https://script.google.com/macros/s/AKfycbznfe1QNkopwYdjHJJPHmKdqHovAblVYnm1lajTwpi87aLC1erVkxuyYv9kX-akli6W8w/exec";
     const params = new URLSearchParams({ action: "lookupOrder", identifier, t: String(Date.now()) });
@@ -439,8 +487,13 @@ orderLookupForm?.addEventListener("submit", async (event) => {
   } catch {
     orderLookupFeedback.textContent = "目前無法查詢，請稍後再試。";
   } finally {
-    setInquiryBusy(orderLookupSubmit, false);
+    orderLookupPending = false;
+    updateOrderLookupCooldown();
   }
+});
+
+window.addEventListener("storage", (event) => {
+  if (event.key === ORDER_LOOKUP_COOLDOWN_KEY) updateOrderLookupCooldown();
 });
 
 inquiryOrderForm?.addEventListener("submit", async (event) => {
