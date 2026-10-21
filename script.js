@@ -686,6 +686,11 @@ const drawAgainButton = document.querySelector("#draw-again-button");
 const ritualDialog = document.querySelector("#ritual-dialog");
 const startDrawButton = document.querySelector("#start-draw-button");
 const cancelRitualButton = document.querySelector("#cancel-ritual-button");
+const drawExperience = document.querySelector("#draw-experience");
+const exitDrawExperienceButton = document.querySelector("#exit-draw-experience");
+const cardFanStage = document.querySelector("#card-fan-stage");
+const cardFan = document.querySelector("#card-fan");
+const cardFanHint = document.querySelector("#card-fan-hint");
 const drawResult = document.querySelector("#draw-result");
 const drawImage = document.querySelector("#draw-card-image");
 const drawName = document.querySelector("#draw-card-name");
@@ -693,21 +698,131 @@ const drawMeaning = document.querySelector("#draw-card-meaning");
 const drawPosition = document.querySelector("#draw-card-position");
 const drawCardFrame = drawImage?.closest(".draw-card-wrap");
 let previousCardIndex = -1;
+let isCardRevealPending = false;
+let fanResizeTimer = 0;
 
-function drawOneCard(shouldScroll = false) {
-  if (!drawResult || !drawImage || !drawName || !drawMeaning || tarotCards.length === 0) return;
+function shuffleCardIndexes() {
+  const indexes = tarotCards.map((_, index) => index);
+  for (let index = indexes.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [indexes[index], indexes[swapIndex]] = [indexes[swapIndex], indexes[index]];
+  }
+  return indexes;
+}
 
-  const availableIndexes = tarotCards.map((_, index) => index).filter((index) => index !== previousCardIndex);
-  const selectedIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
-  const card = tarotCards[selectedIndex];
-  const isReversed = Math.random() < 0.5;
-  previousCardIndex = selectedIndex;
+function getVisibleFanCount() {
+  if (window.innerWidth <= 640) return 15;
+  if (window.innerWidth <= 1024) return 29;
+  return 39;
+}
 
+function renderCardFan() {
+  if (!cardFan || !cardFanStage || tarotCards.length === 0) return;
+  const availableIndexes = shuffleCardIndexes().filter((index) => index !== previousCardIndex);
+  const visibleIndexes = availableIndexes.slice(0, Math.min(getVisibleFanCount(), availableIndexes.length));
+  const fanWidth = cardFanStage.clientWidth || window.innerWidth;
+  const fanHeight = cardFanStage.clientHeight || 300;
+  const maxOffset = fanWidth * (window.innerWidth <= 640 ? 0.34 : 0.4);
+  const maxDrop = window.innerWidth <= 640 ? Math.min(42, fanHeight * 0.16) : Math.min(74, fanHeight * 0.23);
+  const middle = (visibleIndexes.length - 1) / 2;
+
+  cardFan.replaceChildren();
+  cardFan.classList.remove("has-selection");
+  isCardRevealPending = false;
+
+  visibleIndexes.forEach((cardIndex, index) => {
+    const normalized = middle === 0 ? 0 : (index - middle) / middle;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "fan-card";
+    button.dataset.cardIndex = String(cardIndex);
+    button.setAttribute("aria-label", `選擇第 ${index + 1} 張牌`);
+    button.style.setProperty("--fan-x", `${normalized * maxOffset}px`);
+    button.style.setProperty("--fan-y", `${Math.pow(Math.abs(normalized), 1.7) * maxDrop}px`);
+    button.style.setProperty("--fan-angle", `${normalized * 39}deg`);
+    button.style.bottom = `${maxDrop}px`;
+    button.style.zIndex = String(visibleIndexes.length - Math.round(Math.abs(normalized) * visibleIndexes.length));
+
+    const inner = document.createElement("span");
+    inner.className = "fan-card-inner";
+    const back = document.createElement("span");
+    back.className = "fan-card-back";
+    back.setAttribute("aria-hidden", "true");
+    inner.append(back);
+    button.append(inner);
+    button.addEventListener("click", () => revealSelectedCard(button, cardIndex));
+    cardFan.append(button);
+  });
+}
+
+function getCardImageUrl(card) {
   const cardImageUrl = new URL(`./assets/tarot-cards/${card.file}`, document.baseURI);
   if (["00-愚者.webp", "08-力量.webp", "19-太陽.webp"].includes(card.file)) {
     cardImageUrl.searchParams.set("v", "20261020-1");
   }
-  drawImage.src = cardImageUrl.href;
+  return cardImageUrl;
+}
+
+function revealSelectedCard(button, selectedIndex) {
+  if (isCardRevealPending || !drawExperience?.open || !Number.isInteger(selectedIndex)) return;
+  const card = tarotCards[selectedIndex];
+  if (!card) return;
+
+  isCardRevealPending = true;
+  const isReversed = Math.random() < 0.5;
+  cardFan?.classList.add("has-selection");
+  cardFan?.querySelectorAll(".fan-card").forEach((fanCard) => { fanCard.disabled = true; });
+  button.classList.add("is-picked");
+  if (cardFanHint) cardFanHint.textContent = "牌正在為你揭曉……";
+
+  const front = document.createElement("span");
+  front.className = "fan-card-front";
+  const image = document.createElement("img");
+  image.alt = "";
+  image.src = getCardImageUrl(card).href;
+  if (isReversed) image.classList.add("is-reversed");
+  front.append(image);
+  button.querySelector(".fan-card-inner")?.append(front);
+
+  const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 760;
+  window.setTimeout(() => {
+    if (!drawExperience?.open) return;
+    if (cardFanStage) cardFanStage.hidden = true;
+    if (cardFanHint) cardFanHint.hidden = true;
+    drawExperience.classList.add("is-revealed");
+    drawOneCard(selectedIndex, isReversed);
+    drawName?.focus({ preventScroll: true });
+    isCardRevealPending = false;
+  }, delay);
+}
+
+function openDrawExperience() {
+  if (!drawExperience || !drawButton) return;
+  drawButton.hidden = true;
+  drawResult.hidden = true;
+  drawExperience.classList.remove("is-revealed");
+  if (cardFanStage) cardFanStage.hidden = false;
+  if (cardFanHint) {
+    cardFanHint.hidden = false;
+    cardFanHint.textContent = "憑直覺，點選一張牌";
+  }
+  if (!drawExperience.open) drawExperience.showModal();
+  renderCardFan();
+  window.requestAnimationFrame(() => cardFan?.querySelector(".fan-card")?.focus({ preventScroll: true }));
+}
+
+function drawOneCard(selectedIndex, isReversed = Math.random() < 0.5) {
+  if (!drawResult || !drawImage || !drawName || !drawMeaning || tarotCards.length === 0) return;
+
+  const availableIndexes = tarotCards.map((_, index) => index).filter((index) => index !== previousCardIndex);
+  const resolvedIndex = Number.isInteger(selectedIndex) && selectedIndex !== previousCardIndex
+    ? selectedIndex
+    : availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+  const card = tarotCards[resolvedIndex];
+  if (!card) return;
+  previousCardIndex = resolvedIndex;
+
+  drawImage.src = getCardImageUrl(card).href;
   drawImage.alt = `${card.name}${isReversed ? "逆位" : "正位"}，暖暖貓咪塔羅牌`;
   drawCardFrame?.classList.toggle("is-reversed", isReversed);
   drawName.textContent = card.name;
@@ -715,11 +830,6 @@ function drawOneCard(shouldScroll = false) {
   if (drawPosition) drawPosition.textContent = isReversed ? "逆位" : "正位";
   drawResult.hidden = false;
   if (drawButton) drawButton.hidden = true;
-
-  if (shouldScroll) {
-    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
-    window.setTimeout(() => drawResult.scrollIntoView({ behavior, block: "center" }), 30);
-  }
 }
 
 function openRitual() {
@@ -732,5 +842,20 @@ cancelRitualButton?.addEventListener("click", () => ritualDialog?.close());
 startDrawButton?.addEventListener("click", () => {
   if (!ritualDialog?.open) return;
   ritualDialog.close();
-  drawOneCard(true);
+  openDrawExperience();
+});
+exitDrawExperienceButton?.addEventListener("click", () => drawExperience?.close());
+drawExperience?.addEventListener("close", () => {
+  drawExperience.classList.remove("is-revealed");
+  drawResult.hidden = true;
+  drawButton.hidden = false;
+  if (cardFanStage) cardFanStage.hidden = false;
+  if (cardFanHint) cardFanHint.hidden = false;
+  isCardRevealPending = false;
+  window.setTimeout(() => drawButton?.focus({ preventScroll: true }), 0);
+});
+window.addEventListener("resize", () => {
+  if (!drawExperience?.open || cardFanStage?.hidden || isCardRevealPending) return;
+  window.clearTimeout(fanResizeTimer);
+  fanResizeTimer = window.setTimeout(renderCardFan, 120);
 });

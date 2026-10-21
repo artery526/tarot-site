@@ -71,6 +71,34 @@ h1 span { color: var(--color-primary); }
 .ritual-step-number { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--color-sunshine); color: #a96c4e; font-weight: 800; }
 .ritual-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .ritual-actions .button { min-width: 122px; }
+.draw-experience { position: fixed; inset: 0; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: clamp(72px, 10vh, 108px) clamp(14px, 4vw, 52px) 28px; overflow: hidden; border: 0; background: radial-gradient(ellipse at 50% 48%, rgb(91 116 78 / 34%), transparent 58%), radial-gradient(ellipse at 15% 12%, rgb(185 139 80 / 10%), transparent 42%), #20372e; color: #f8f2df; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 0; isolation: isolate; }
+.draw-experience[open] { display: flex; }
+.draw-experience::backdrop { background: #182921; }
+.draw-experience::before { content: ""; position: absolute; z-index: -1; inset: 0; pointer-events: none; opacity: .2; background-image: radial-gradient(rgb(255 247 224 / 20%) .65px, transparent .75px), radial-gradient(rgb(4 21 15 / 18%) .7px, transparent .8px); background-size: 9px 9px, 13px 13px; background-position: 0 0, 4px 6px; }
+.draw-experience-close { position: absolute; z-index: 2; top: max(16px, env(safe-area-inset-top)); right: clamp(16px, 4vw, 52px); min-height: 42px; padding: 8px 15px; border: 1px solid rgb(248 242 223 / 38%); border-radius: 999px; background: rgb(248 242 223 / 8%); color: #f8f2df; cursor: pointer; font: inherit; font-size: .9rem; transition: background .2s ease, border-color .2s ease; }
+.draw-experience-close:hover { border-color: rgb(248 242 223 / 70%); background: rgb(248 242 223 / 15%); }
+.draw-experience-copy { flex: 0 0 auto; margin: 0 0 4px; text-align: center; }
+.draw-experience-kicker { margin: 0 0 10px; color: #d4b67e; font-size: .72rem; font-weight: 800; letter-spacing: .2em; }
+.draw-experience-copy h2 { margin: 0; color: #f8f2df; font-family: Georgia, "Noto Serif TC", serif; font-size: clamp(1.8rem, 4vw, 2.3rem); letter-spacing: .08em; }
+.draw-experience-copy > p:last-child { margin: 9px 0 0; color: rgb(248 242 223 / 82%); font-family: Georgia, "Noto Serif TC", serif; font-size: clamp(1rem, 2.3vw, 1.28rem); }
+.card-fan-stage { position: relative; flex: 0 1 auto; width: min(100%, 1120px); height: clamp(230px, 40vh, 360px); margin: clamp(12px, 2vh, 24px) auto 0; }
+.card-fan { position: absolute; inset: 0; }
+.fan-card { position: absolute; left: 50%; bottom: 2px; width: clamp(58px, 7.2vw, 94px); aspect-ratio: 971 / 1620; padding: 0; border: 0; border-radius: 9px; background: transparent; cursor: pointer; transform: translate(calc(-50% + var(--fan-x, 0px)), calc(var(--fan-y, 0px) + var(--fan-lift, 0px))) rotate(var(--fan-angle, 0deg)); transform-origin: 50% 112%; transition: transform .28s cubic-bezier(.2,.75,.25,1), opacity .32s ease, filter .25s ease; }
+.fan-card:hover:not(:disabled) { --fan-lift: -18px; filter: brightness(1.06); }
+.fan-card:focus-visible { z-index: 1000 !important; outline: 3px solid #f3cf82; outline-offset: 4px; --fan-lift: -18px; }
+.fan-card-inner { position: absolute; inset: 0; display: block; border-radius: inherit; transform-style: preserve-3d; transition: transform .72s cubic-bezier(.2,.72,.22,1); }
+.fan-card-back, .fan-card-front { position: absolute; inset: 0; overflow: hidden; display: block; border: 1px solid #e9d7b3; border-radius: inherit; backface-visibility: hidden; box-shadow: 0 8px 22px rgb(4 18 12 / 35%); }
+.fan-card-back { background: #f8f0dc url("./assets/tarot-cards/card-back.svg") center / 100% 100% no-repeat; }
+.fan-card-front { transform: rotateY(180deg); background: #fffaf0; }
+.fan-card-front img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.fan-card-front img.is-reversed { transform: rotate(180deg); }
+.fan-card.is-picked { z-index: 1000 !important; transform: translate(-50%, -12px) rotate(0deg) scale(1.1); transition-duration: .72s; }
+.fan-card.is-picked .fan-card-inner { transform: rotateY(180deg); }
+.card-fan.has-selection .fan-card:not(.is-picked) { opacity: 0; pointer-events: none; }
+.card-fan-hint { flex: 0 0 auto; min-height: 1.5em; margin: 2px 0 0; color: #e8d9b5; font-size: .9rem; letter-spacing: .12em; text-align: center; }
+.draw-experience .draw-result { width: min(100%, 780px); max-height: calc(100dvh - 126px); margin: 0; overflow: auto; color: var(--color-text); }
+.draw-experience.is-revealed .draw-experience-copy, .draw-experience.is-revealed .card-fan-stage, .draw-experience.is-revealed .card-fan-hint { display: none; }
+.draw-experience.is-revealed .draw-result { align-self: center; }
 .draw-result { max-width: 760px; margin: 38px auto 0; padding: 26px; display: grid; grid-template-columns: minmax(180px, 250px) minmax(0, 1fr); align-items: center; gap: clamp(24px, 5vw, 48px); text-align: left; border: 1px solid rgb(209 157 116 / 24%); border-radius: 26px; background: rgb(255 253 248 / 88%); box-shadow: var(--shadow); animation: draw-appear .45s ease both; }
 .draw-result[hidden] { display: none; }
 .draw-card-wrap { width: 100%; max-width: 250px; justify-self: center; overflow: hidden; border: 5px solid #fffdf8; border-radius: 12px; box-shadow: 0 12px 28px rgb(121 85 72 / 19%); }
@@ -87,6 +115,28 @@ h1 span { color: var(--color-primary); }
 .classroom-button { min-height: 46px; gap: 8px; padding-inline: 17px; border: 1px solid rgb(197 142 109 / 38%); background: #fffdf8; color: #9b6d52; box-shadow: none; font-size: .9rem; }
 .classroom-button:hover { background: #fff1dc; }
 @keyframes draw-appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 640px) {
+  .draw-experience { padding: max(70px, calc(env(safe-area-inset-top) + 62px)) 10px max(12px, env(safe-area-inset-bottom)); }
+  .draw-experience-close { top: max(12px, env(safe-area-inset-top)); right: 12px; min-height: 38px; padding: 6px 12px; font-size: .82rem; }
+  .draw-experience-copy { margin-bottom: 0; }
+  .draw-experience-kicker { margin-bottom: 6px; font-size: .64rem; }
+  .draw-experience-copy h2 { font-size: 1.65rem; }
+  .draw-experience-copy > p:last-child { margin-top: 6px; font-size: .96rem; }
+  .card-fan-stage { width: 100%; height: clamp(220px, 34vh, 285px); margin-top: 8px; }
+  .fan-card { width: clamp(54px, 15vw, 70px); border-radius: 7px; }
+  .fan-card-back, .fan-card-front { border-radius: inherit; }
+  .fan-card:hover:not(:disabled), .fan-card:focus-visible { --fan-lift: -12px; }
+  .card-fan-hint { margin-top: 0; font-size: .8rem; }
+  .draw-experience .draw-result { width: 100%; max-height: calc(100dvh - 86px); margin: 0; padding: 14px; grid-template-columns: 1fr; gap: 13px; text-align: center; }
+  .draw-experience .draw-card-wrap { width: min(43%, 168px); }
+  .draw-experience .draw-reading h3 { font-size: 1.38rem; }
+  .draw-experience .draw-meaning { margin-block: 9px 11px; font-size: .9rem; line-height: 1.7; }
+  .draw-experience .draw-note { margin-bottom: 12px; font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fan-card, .fan-card-inner, .draw-experience-close { transition: none; }
+  .draw-result { animation: none; }
+}
 .services { background: #fff3e1; }
 .classroom-section { background: #fffaf1; border-block: 1px solid rgb(209 157 116 / 15%); }
 .classroom-section .section-inner { padding-block: 66px 70px; }

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 600" role="img" aria-label="暖暖塔羅牌背">
+  <rect x="5" y="5" width="350" height="590" rx="24" fill="#f8f0dc" stroke="#283d32" stroke-width="10"/>
+  <rect x="19" y="19" width="322" height="562" rx="17" fill="none" stroke="#b98b50" stroke-width="3"/>
+  <rect x="29" y="29" width="302" height="542" rx="13" fill="none" stroke="#52664b" stroke-width="1.5"/>
+  <g fill="none" stroke="#b98b50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 96c0-27 18-45 45-45m-45 0v45m0-45h45M318 96c0-27-18-45-45-45m45 0v45m0-45h-45M42 504c0 27 18 45 45 45m-45 0v-45m0 45h45m231-45c0 27-18 45-45 45m45 0v-45m0 45h-45"/>
+    <path d="M51 83c13-14 22-21 36-22m222 22c-13-14-22-21-36-22M51 517c13 14 22 21 36 22m222-22c-13 14-22 21-36 22" stroke="#52664b" stroke-width="2"/>
+  </g>
+  <g fill="#c99759">
+    <path d="m78 111 5 12 12 5-12 5-5 12-5-12-12-5 12-5zM282 111l5 12 12 5-12 5-5 12-5-12-12-5 12-5zM78 455l5 12 12 5-12 5-5 12-5-12-12-5 12-5zM282 455l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/>
+  </g>
+  <circle cx="180" cy="300" r="91" fill="#f3e4c4" stroke="#b98b50" stroke-width="4"/>
+  <circle cx="180" cy="300" r="78" fill="none" stroke="#52664b" stroke-width="2" stroke-dasharray="2 8"/>
+  <g fill="#52664b" stroke="#283d32" stroke-width="3" stroke-linejoin="round">
+    <path d="M123 302c0-31 19-54 42-54 9 0 16 4 21 11 6-7 13-11 22-11 23 0 42 23 42 54 0 35-24 64-64 77-40-13-63-42-63-77z"/>
+    <path d="m146 269 3-31 23 18m19 0 23-18 3 31" fill="#f3e4c4"/>
+    <path d="M164 304a6 6 0 1 0 0 .1m32 0a6 6 0 1 0 0 .1" fill="#f8f0dc" stroke="none"/>
+    <path d="M188 317q-8 8-16 0m8 0v8m0 0q-10 11-21 3m21-3q10 11 21 3" fill="none" stroke="#f8f0dc" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g fill="#b98b50">
+    <circle cx="180" cy="177" r="5"/><circle cx="180" cy="423" r="5"/>
+    <circle cx="57" cy="300" r="5"/><circle cx="303" cy="300" r="5"/>
+  </g>
+</svg>
