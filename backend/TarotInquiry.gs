@@ -9,7 +9,7 @@ const TAROT_INQUIRY_CONFIG = Object.freeze({
     total: "網頁送出總金額",
   },
   inquiryHeaders: ["訂單編號", "Email", "稱呼", "問題內容", "單張或三張", "處理狀態"],
-  processedValue: "已處理",
+  processedValue: "已結單",
 });
 
 function doPost(event) {

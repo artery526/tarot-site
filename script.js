@@ -361,7 +361,7 @@ document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
     if (!inquiryDialog || inquiryDialog.open) return;
     selectedInquiryType = button.dataset.inquiryType;
     const threshold = selectedInquiryType === "三張塔羅解讀" ? 300 : 100;
-    inquiryPlanLabel.textContent = `${selectedInquiryType}｜需符合已處理且總金額滿 NT$${threshold} 的訂單資格。`;
+    inquiryPlanLabel.textContent = `${selectedInquiryType}｜需符合已結單且總金額滿 NT$${threshold} 的訂單資格。`;
     inquiryOrderForm.reset();
     inquiryDetailsForm.reset();
     inquiryOrderForm.hidden = false;
