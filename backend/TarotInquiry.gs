@@ -20,6 +20,7 @@ function doPost(event) {
     const payload = input.payload || {};
     if (!allowRequest_(input.clientIp || "unknown")) return output_({ ok: false, code: "RATE_LIMITED" }, 429);
 
+    if (input.action === "challenge") return output_({ ok: true, challenge: createArithmeticChallenge_() });
     if (input.action === "verify") return verifyOrder_(payload);
     if (input.action === "submit") return submitInquiry_(payload);
     return output_({ ok: false, code: "INVALID_INPUT" }, 400);
@@ -31,12 +32,17 @@ function doPost(event) {
 function verifyOrder_(payload) {
   const orderNumber = cleanText_(payload.orderNumber, 80);
   const type = cleanType_(payload.type);
+  const challengeToken = cleanText_(payload.challengeToken, 80);
+  const challengeAnswer = cleanText_(payload.challengeAnswer, 3);
   if (!orderNumber || !type) return output_({ ok: false, code: "INVALID_INPUT" }, 400);
+  if (!verifyArithmeticChallenge_(challengeToken, challengeAnswer)) {
+    return output_({ ok: false, code: "INVALID_CHALLENGE" }, 400);
+  }
 
   const order = findEligibleOrder_(orderNumber, type);
   if (!order) return output_({ ok: false, code: "ORDER_NOT_ELIGIBLE" }, 400);
   if (hasSubmittedInquiry_(orderNumber)) return output_({ ok: false, code: "ALREADY_USED" }, 409);
-  return output_({ ok: true, challenge: createArithmeticChallenge_() });
+  return output_({ ok: true });
 }
 
 function submitInquiry_(payload) {
@@ -45,8 +51,6 @@ function submitInquiry_(payload) {
   const name = cleanText_(payload.name, 80);
   const email = cleanText_(payload.email, 254).toLowerCase();
   const question = cleanText_(payload.question, 2000);
-  const challengeToken = cleanText_(payload.challengeToken, 80);
-  const challengeAnswer = cleanText_(payload.challengeAnswer, 3);
   if (!orderNumber || !type || !name || !isValidEmail_(email) || !question) {
     return output_({ ok: false, code: "INVALID_INPUT" }, 400);
   }
@@ -58,10 +62,6 @@ function submitInquiry_(payload) {
     if (!order) return output_({ ok: false, code: "ORDER_NOT_ELIGIBLE" }, 400);
     if (order.email.toLowerCase() !== email) return output_({ ok: false, code: "EMAIL_MISMATCH" }, 400);
     if (hasSubmittedInquiry_(orderNumber)) return output_({ ok: false, code: "ALREADY_USED" }, 409);
-    if (!verifyArithmeticChallenge_(challengeToken, challengeAnswer)) {
-      return output_({ ok: false, code: "INVALID_CHALLENGE" }, 400);
-    }
-
     const sheet = SpreadsheetApp.openById(TAROT_INQUIRY_CONFIG.spreadsheetId)
       .getSheetByName(TAROT_INQUIRY_CONFIG.inquiriesSheet);
     if (!sheet) return output_({ ok: false, code: "SERVICE_UNAVAILABLE" }, 500);

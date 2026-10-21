@@ -352,7 +352,7 @@ function inquiryErrorMessage(code) {
     ORDER_NOT_ELIGIBLE: "目前無法驗證這筆訂單。請確認編號、訂單狀態與方案門檻，或聯繫 Emily。",
     ALREADY_USED: "這筆訂單已送出過詢問。如需協助，請聯繫 Emily。",
     EMAIL_MISMATCH: "Email 與訂單資料不符，請確認下單時使用的信箱。",
-    INVALID_CHALLENGE: "算數答案不正確或已過期，請返回重新驗證訂單。",
+    INVALID_CHALLENGE: "算數答案不正確或已過期，請重新回答後再驗證訂單。",
     INVALID_INPUT: "請檢查欄位內容後再試一次。",
     RATE_LIMITED: "驗證次數較多，請一分鐘後再試。",
     SERVICE_UNAVAILABLE: "詢問服務暫時無法確認結果。若剛才正在送出，請先聯繫 Emily 確認是否收到，避免重複提交。",
@@ -361,7 +361,7 @@ function inquiryErrorMessage(code) {
 }
 
 document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", async () => {
     if (!inquiryDialog || inquiryDialog.open) return;
     selectedInquiryType = button.dataset.inquiryType;
     const threshold = selectedInquiryType === "三張塔羅解讀" ? 300 : 100;
@@ -373,7 +373,16 @@ document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
     inquirySuccess.hidden = true;
     inquiryOrderFeedback.textContent = "";
     inquirySubmitFeedback.textContent = "";
+    inquiryMathChallengeToken = "";
     inquiryDialog.showModal();
+    try {
+      const result = await sendInquiryRequest("challenge", {});
+      if (!result.challenge?.token) throw new Error("SERVICE_UNAVAILABLE");
+      inquiryMathChallengeToken = result.challenge.token;
+      inquiryMathQuestion.textContent = `驗證訂單前小確認：${result.challenge.left} + ${result.challenge.right} = ?`;
+    } catch (error) {
+      inquiryOrderFeedback.textContent = inquiryErrorMessage(error.message);
+    }
     window.setTimeout(() => inquiryOrderNumber?.focus(), 0);
   });
 });
@@ -381,15 +390,21 @@ document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
 inquiryOrderForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!inquiryOrderForm.reportValidity()) return;
+  if (!inquiryMathChallengeToken) {
+    inquiryOrderFeedback.textContent = "算數題尚未準備好，請關閉後重新開始。";
+    return;
+  }
   inquiryOrderFeedback.textContent = "";
   setInquiryBusy(verifyOrderButton, true, "核對中…");
   try {
     const orderNumber = inquiryOrderNumber.value.trim();
-    const result = await sendInquiryRequest("verify", { orderNumber, type: selectedInquiryType });
-    if (!result.challenge?.token) throw new Error("SERVICE_UNAVAILABLE");
-    inquiryMathChallengeToken = result.challenge.token;
-    inquiryMathQuestion.textContent = `送出前小確認：${result.challenge.left} + ${result.challenge.right} = ?`;
-    inquiryMathAnswer.value = "";
+    const result = await sendInquiryRequest("verify", {
+      orderNumber,
+      type: selectedInquiryType,
+      challengeToken: inquiryMathChallengeToken,
+      challengeAnswer: inquiryMathAnswer.value.trim(),
+    });
+    inquiryMathChallengeToken = "";
     inquiryOrderConfirmed.value = orderNumber;
     inquiryTypeInput.value = selectedInquiryType;
     inquiryOrderForm.hidden = true;
@@ -397,6 +412,16 @@ inquiryOrderForm?.addEventListener("submit", async (event) => {
     inquiryDetailsForm.querySelector("[name='name']")?.focus();
   } catch (error) {
     inquiryOrderFeedback.textContent = inquiryErrorMessage(error.message);
+    inquiryMathChallengeToken = "";
+    inquiryMathAnswer.value = "";
+    try {
+      const result = await sendInquiryRequest("challenge", {});
+      if (!result.challenge?.token) throw new Error("SERVICE_UNAVAILABLE");
+      inquiryMathChallengeToken = result.challenge.token;
+      inquiryMathQuestion.textContent = `驗證訂單前小確認：${result.challenge.left} + ${result.challenge.right} = ?`;
+    } catch {
+      inquiryOrderFeedback.textContent += " 算數題更新失敗，請關閉後重新開始。";
+    }
   } finally {
     setInquiryBusy(verifyOrderButton, false);
   }
@@ -415,8 +440,6 @@ inquiryDetailsForm?.addEventListener("submit", async (event) => {
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
       question: String(formData.get("question") || "").trim(),
-      challengeToken: inquiryMathChallengeToken,
-      challengeAnswer: String(formData.get("challengeAnswer") || "").trim(),
     });
     inquiryOrderForm.hidden = true;
     inquiryDetailsForm.hidden = true;
@@ -434,6 +457,14 @@ document.querySelector("#back-to-order")?.addEventListener("click", () => {
   inquiryOrderForm.hidden = false;
   inquiryMathChallengeToken = "";
   inquirySubmitFeedback.textContent = "";
+  inquiryMathAnswer.value = "";
+  sendInquiryRequest("challenge", {}).then((result) => {
+    if (!result.challenge?.token) throw new Error("SERVICE_UNAVAILABLE");
+    inquiryMathChallengeToken = result.challenge.token;
+    inquiryMathQuestion.textContent = `驗證訂單前小確認：${result.challenge.left} + ${result.challenge.right} = ?`;
+  }).catch((error) => {
+    inquiryOrderFeedback.textContent = inquiryErrorMessage(error.message);
+  });
   inquiryOrderNumber?.focus();
 });
 
