@@ -301,20 +301,143 @@ if (classroomGroupsElement) {
   });
 }
 
-const inquiryNoticeDialog = document.querySelector("#inquiry-notice-dialog");
-const inquiryNoticeMessage = document.querySelector("#inquiry-notice-message");
-const closeInquiryNotice = document.querySelector("#close-inquiry-notice");
+const inquiryDialog = document.querySelector("#inquiry-dialog");
+const inquiryPlanLabel = document.querySelector("#inquiry-plan-label");
+const inquiryOrderForm = document.querySelector("#inquiry-order-form");
+const inquiryDetailsForm = document.querySelector("#inquiry-details-form");
+const inquiryOrderNumber = document.querySelector("#inquiry-order-number");
+const inquiryOrderConfirmed = document.querySelector("#inquiry-order-confirmed");
+const inquiryTypeInput = document.querySelector("#inquiry-type");
+const inquirySuccess = document.querySelector("#inquiry-success");
+const inquiryOrderFeedback = document.querySelector("#inquiry-order-feedback");
+const inquirySubmitFeedback = document.querySelector("#inquiry-submit-feedback");
+const verifyOrderButton = document.querySelector("#verify-order-button");
+const sendInquiryButton = document.querySelector("#send-inquiry-button");
+let selectedInquiryType = "";
+
+function setInquiryBusy(button, busy, busyLabel) {
+  if (!button) return;
+  button.disabled = busy;
+  if (busy) {
+    button.dataset.originalLabel = button.textContent;
+    button.textContent = busyLabel;
+  } else if (button.dataset.originalLabel) {
+    button.textContent = button.dataset.originalLabel;
+    delete button.dataset.originalLabel;
+  }
+}
+
+async function sendInquiryRequest(action, body) {
+  const response = await fetch(`/api/inquiry/${action}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    credentials: "same-origin",
+  });
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("SERVICE_UNAVAILABLE");
+  }
+  if (!response.ok || result.ok !== true) throw new Error(result.code || "SERVICE_UNAVAILABLE");
+  return result;
+}
+
+function inquiryErrorMessage(code) {
+  const messages = {
+    ORDER_NOT_ELIGIBLE: "目前無法驗證這筆訂單。請確認編號、訂單狀態與方案門檻，或聯繫 Emily。",
+    ALREADY_USED: "這筆訂單已送出過詢問。如需協助，請聯繫 Emily。",
+    EMAIL_MISMATCH: "Email 與訂單資料不符，請確認下單時使用的信箱。",
+    INVALID_INPUT: "請檢查欄位內容後再試一次。",
+    RATE_LIMITED: "操作次數較多，請稍候幾分鐘再試。",
+    SERVICE_UNAVAILABLE: "詢問服務暫時無法確認結果。若剛才正在送出，請先聯繫 Emily 確認是否收到，避免重複提交。",
+  };
+  return messages[code] || messages.SERVICE_UNAVAILABLE;
+}
 
 document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
   button.addEventListener("click", () => {
-    if (!inquiryNoticeDialog || inquiryNoticeDialog.open) return;
-    const type = button.dataset.inquiryType;
-    inquiryNoticeMessage.textContent = `${type}表單開放後，會先核對訂單狀態及符合資格的總金額，再讓您填寫問題；目前尚未收集或傳送任何資料。`;
-    inquiryNoticeDialog.showModal();
+    if (!inquiryDialog || inquiryDialog.open) return;
+    selectedInquiryType = button.dataset.inquiryType;
+    const threshold = selectedInquiryType === "三張塔羅解讀" ? 300 : 100;
+    inquiryPlanLabel.textContent = `${selectedInquiryType}｜需符合已處理且總金額滿 NT$${threshold} 的訂單資格。`;
+    inquiryOrderForm.reset();
+    inquiryDetailsForm.reset();
+    inquiryOrderForm.hidden = false;
+    inquiryDetailsForm.hidden = true;
+    inquirySuccess.hidden = true;
+    inquiryOrderFeedback.textContent = "";
+    inquirySubmitFeedback.textContent = "";
+    inquiryDialog.showModal();
+    window.setTimeout(() => inquiryOrderNumber?.focus(), 0);
   });
 });
 
-closeInquiryNotice?.addEventListener("click", () => inquiryNoticeDialog?.close());
+inquiryOrderForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!inquiryOrderForm.reportValidity()) return;
+  inquiryOrderFeedback.textContent = "";
+  setInquiryBusy(verifyOrderButton, true, "核對中…");
+  try {
+    const orderNumber = inquiryOrderNumber.value.trim();
+    await sendInquiryRequest("verify", { orderNumber, type: selectedInquiryType });
+    inquiryOrderConfirmed.value = orderNumber;
+    inquiryTypeInput.value = selectedInquiryType;
+    inquiryOrderForm.hidden = true;
+    inquiryDetailsForm.hidden = false;
+    inquiryDetailsForm.querySelector("[name='name']")?.focus();
+  } catch (error) {
+    inquiryOrderFeedback.textContent = inquiryErrorMessage(error.message);
+  } finally {
+    setInquiryBusy(verifyOrderButton, false);
+  }
+});
+
+inquiryDetailsForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!inquiryDetailsForm.reportValidity()) return;
+  inquirySubmitFeedback.textContent = "";
+  setInquiryBusy(sendInquiryButton, true, "送出中…");
+  try {
+    const formData = new FormData(inquiryDetailsForm);
+    await sendInquiryRequest("submit", {
+      orderNumber: inquiryOrderConfirmed.value,
+      type: selectedInquiryType,
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      question: String(formData.get("question") || "").trim(),
+    });
+    inquiryOrderForm.hidden = true;
+    inquiryDetailsForm.hidden = true;
+    inquirySuccess.hidden = false;
+    inquirySuccess.focus();
+  } catch (error) {
+    inquirySubmitFeedback.textContent = inquiryErrorMessage(error.message);
+  } finally {
+    setInquiryBusy(sendInquiryButton, false);
+  }
+});
+
+document.querySelector("#back-to-order")?.addEventListener("click", () => {
+  inquiryDetailsForm.hidden = true;
+  inquiryOrderForm.hidden = false;
+  inquirySubmitFeedback.textContent = "";
+  inquiryOrderNumber?.focus();
+});
+
+document.querySelector("#cancel-inquiry")?.addEventListener("click", () => inquiryDialog?.close());
+document.querySelector("#finish-inquiry")?.addEventListener("click", () => inquiryDialog?.close());
+inquiryDialog?.addEventListener("close", () => {
+  inquiryOrderForm?.reset();
+  inquiryDetailsForm?.reset();
+  inquiryOrderForm.hidden = false;
+  inquiryDetailsForm.hidden = true;
+  inquirySuccess.hidden = true;
+  inquiryOrderFeedback.textContent = "";
+  inquirySubmitFeedback.textContent = "";
+  selectedInquiryType = "";
+});
 
 const reversedMeanings = new Map([
   // 大阿爾克那

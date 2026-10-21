@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#fff8eb" />
     <meta name="description" content="Emily塔羅小屋，讓Emily陪你聊聊心事。真人塔羅服務即將開放。" />
     <title>Emily塔羅小屋｜讓Emily陪你聊聊心事</title>
-    <link rel="stylesheet" href="./styles.css?v=20261021-inquiry-stage-1" />
-    <script src="./script.js?v=20261021-inquiry-stage-1" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261021-inquiry-stage-2" />
+    <script src="./script.js?v=20261021-inquiry-stage-2" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -89,11 +89,47 @@
             <article class="plan-card featured"><div class="plan-icon">🌙</div><div><p class="plan-kicker">多一點線索 10～15 分鐘</p><h3>🔮 三張塔羅解讀</h3><p class="plan-description">從不同角度梳理脈絡，找到更完整的溫柔指引。</p></div><div class="plan-bottom"><span class="plan-eligibility">（購買 Emily 工坊商品滿 300 元以上即可免費算）</span></div><button class="button plan-inquiry-button" type="button" data-inquiry-type="三張塔羅解讀">開始詢問</button></article>
           </div>
         </div>
-        <dialog class="ritual-dialog inquiry-notice-dialog" id="inquiry-notice-dialog" aria-labelledby="inquiry-notice-title">
-          <p class="draw-kicker">A LITTLE NOTE</p>
-          <h2 id="inquiry-notice-title">詢問表單準備中</h2>
-          <p class="inquiry-notice-message" id="inquiry-notice-message">表單開放後，會先核對訂單狀態與總金額，再讓您填寫問題；目前尚未收集或傳送任何資料。</p>
-          <button class="button button-secondary" id="close-inquiry-notice" type="button">知道了</button>
+        <dialog class="ritual-dialog inquiry-dialog" id="inquiry-dialog" aria-labelledby="inquiry-title">
+          <p class="draw-kicker">A LITTLE GUIDANCE</p>
+          <h2 id="inquiry-title">開始詢問</h2>
+          <p class="inquiry-intro" id="inquiry-plan-label"></p>
+          <form id="inquiry-order-form" class="inquiry-form">
+            <h3 class="inquiry-step-title">第一步｜驗證訂單資格</h3>
+            <label for="inquiry-order-number">Emily 工坊訂單編號</label>
+            <input id="inquiry-order-number" name="orderNumber" type="text" autocomplete="off" maxlength="80" required />
+            <p class="inquiry-field-hint">請使用工坊訂單上的編號。系統會確認訂單狀態及金額是否符合方案。</p>
+            <p class="inquiry-feedback" id="inquiry-order-feedback" role="status" aria-live="polite"></p>
+            <div class="inquiry-actions">
+              <button class="button button-secondary" id="cancel-inquiry" type="button">稍後再問</button>
+              <button class="button" id="verify-order-button" type="submit">驗證並繼續</button>
+            </div>
+          </form>
+          <form id="inquiry-details-form" class="inquiry-form" hidden>
+            <h3 class="inquiry-step-title">第二步｜填寫問題</h3>
+            <label for="inquiry-order-confirmed">訂單編號</label>
+            <input id="inquiry-order-confirmed" type="text" readonly />
+            <label for="inquiry-type">詢問方案</label>
+            <input id="inquiry-type" type="text" readonly />
+            <label for="inquiry-name">怎麼稱呼你</label>
+            <input id="inquiry-name" name="name" type="text" autocomplete="name" maxlength="80" required />
+            <label for="inquiry-email">訂單 Email</label>
+            <input id="inquiry-email" name="email" type="email" autocomplete="email" maxlength="254" required />
+            <p class="inquiry-field-hint">請填寫下單時使用的 Email，以確認訂單。</p>
+            <label for="inquiry-question">想詢問的內容</label>
+            <textarea id="inquiry-question" name="question" rows="5" maxlength="2000" required></textarea>
+            <p class="inquiry-field-hint">送出後，資料會記錄在「塔羅小屋」分頁供 Emily 回覆；請勿填寫不相關的高度敏感資訊。</p>
+            <p class="inquiry-feedback" id="inquiry-submit-feedback" role="status" aria-live="polite"></p>
+            <div class="inquiry-actions">
+              <button class="button button-secondary" id="back-to-order" type="button">返回上一步</button>
+              <button class="button" id="send-inquiry-button" type="submit">送出詢問</button>
+            </div>
+          </form>
+          <section class="inquiry-success" id="inquiry-success" tabindex="-1" hidden>
+            <div class="inquiry-success-icon" aria-hidden="true">🐾</div>
+            <h3>已收到你的問題</h3>
+            <p>Emily 會再為你整理回覆，謝謝你把心事交給小屋。</p>
+            <button class="button button-secondary" id="finish-inquiry" type="button">完成</button>
+          </section>
         </dialog>
       </section>
 
