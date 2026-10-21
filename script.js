@@ -302,6 +302,11 @@ if (classroomGroupsElement) {
 }
 
 const inquiryDialog = document.querySelector("#inquiry-dialog");
+const orderLookupDialog = document.querySelector("#order-lookup-dialog");
+const orderLookupForm = document.querySelector("#order-lookup-form");
+const orderLookupIdentifier = document.querySelector("#order-lookup-identifier");
+const orderLookupFeedback = document.querySelector("#order-lookup-feedback");
+const orderLookupSubmit = document.querySelector("#lookup-order-submit");
 const inquiryPlanLabel = document.querySelector("#inquiry-plan-label");
 const inquiryOrderForm = document.querySelector("#inquiry-order-form");
 const inquiryDetailsForm = document.querySelector("#inquiry-details-form");
@@ -385,6 +390,57 @@ document.querySelectorAll("[data-inquiry-type]").forEach((button) => {
     }
     window.setTimeout(() => inquiryOrderNumber?.focus(), 0);
   });
+});
+
+document.querySelector("#open-order-lookup")?.addEventListener("click", () => {
+  if (!orderLookupDialog || orderLookupDialog.open) return;
+  orderLookupForm.reset();
+  orderLookupFeedback.textContent = "";
+  orderLookupDialog.showModal();
+  orderLookupIdentifier.focus();
+});
+
+document.querySelector("#close-order-lookup")?.addEventListener("click", () => {
+  orderLookupDialog?.close();
+  inquiryOrderNumber?.focus();
+});
+
+orderLookupDialog?.addEventListener("close", () => {
+  orderLookupForm?.reset();
+  orderLookupFeedback.textContent = "";
+});
+
+orderLookupForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!orderLookupForm.reportValidity()) return;
+
+  const identifier = orderLookupIdentifier.value.trim();
+  const isOrderNumber = /^EH\d{6}[A-Z0-9]{6}$/i.test(identifier);
+  const isPhoneNumber = /^[0-9+()\-\s]{8,20}$/.test(identifier);
+  if (!isOrderNumber && !isPhoneNumber) {
+    orderLookupFeedback.textContent = "請輸入正確的訂單編號或手機號碼。";
+    return;
+  }
+
+  orderLookupFeedback.textContent = "正在查詢訂單…";
+  setInquiryBusy(orderLookupSubmit, true, "查詢中…");
+  try {
+    const endpoint = "https://script.google.com/macros/s/AKfycbznfe1QNkopwYdjHJJPHmKdqHovAblVYnm1lajTwpi87aLC1erVkxuyYv9kX-akli6W8w/exec";
+    const params = new URLSearchParams({ action: "lookupOrder", identifier, t: String(Date.now()) });
+    const response = await fetch(`${endpoint}?${params}`, { cache: "no-store" });
+    const result = await response.json();
+    if (result.ok && Array.isArray(result.orders)) {
+      orderLookupFeedback.textContent = result.orders.length
+        ? result.orders.map((order) => `訂單編號：${order.orderNumber}｜目前進度：${order.status}`).join("\n")
+        : "目前查無符合的訂單資料，請確認輸入內容。";
+    } else {
+      orderLookupFeedback.textContent = String(result.error || "查詢失敗，請稍後再試。");
+    }
+  } catch {
+    orderLookupFeedback.textContent = "目前無法查詢，請稍後再試。";
+  } finally {
+    setInquiryBusy(orderLookupSubmit, false);
+  }
 });
 
 inquiryOrderForm?.addEventListener("submit", async (event) => {

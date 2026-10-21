@@ -104,7 +104,7 @@
             <p class="inquiry-feedback" id="inquiry-order-feedback" role="status" aria-live="polite"></p>
             <div class="inquiry-actions">
               <button class="button button-secondary" id="cancel-inquiry" type="button">稍後再問</button>
-              <a class="button button-secondary" href="https://emilyshome.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="前往 Emily 手作工坊查詢訂單編號">查詢訂單編號</a>
+              <button class="button button-secondary" id="open-order-lookup" type="button" aria-haspopup="dialog" aria-controls="order-lookup-dialog">查詢訂單編號</button>
               <button class="button" id="verify-order-button" type="submit">驗證並繼續</button>
             </div>
           </form>
@@ -134,6 +134,20 @@
             <p>Emily 會再為你整理回覆，謝謝你把心事交給小屋。</p>
             <button class="button button-secondary" id="finish-inquiry" type="button">完成</button>
           </section>
+        </dialog>
+        <dialog class="ritual-dialog inquiry-dialog order-lookup-dialog" id="order-lookup-dialog" aria-labelledby="order-lookup-title">
+          <p class="draw-kicker">EMILY'S HANDMADE SHOP</p>
+          <h2 id="order-lookup-title">查詢訂單進度</h2>
+          <p class="inquiry-intro">輸入 Emily 手作工坊訂單編號或下單時填寫的手機號碼。</p>
+          <form class="inquiry-form" id="order-lookup-form">
+            <label for="order-lookup-identifier">訂單編號或手機號碼</label>
+            <input id="order-lookup-identifier" name="identifier" type="text" autocomplete="off" maxlength="80" required />
+            <p class="inquiry-feedback" id="order-lookup-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="inquiry-actions">
+              <button class="button button-secondary" id="close-order-lookup" type="button">返回訂單驗證</button>
+              <button class="button" id="lookup-order-submit" type="submit">查詢進度</button>
+            </div>
+          </form>
         </dialog>
       </section>
 
