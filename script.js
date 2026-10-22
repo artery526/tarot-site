@@ -16,6 +16,27 @@ navigation?.querySelectorAll("a").forEach((link) => {
   });
 });
 
+const privacyDisclosure = document.querySelector("#privacy");
+const footerPrivacyLink = document.querySelector(".footer-privacy-link");
+
+if (privacyDisclosure instanceof HTMLDetailsElement) {
+  privacyDisclosure.addEventListener("toggle", () => {
+    footerPrivacyLink?.setAttribute("aria-expanded", String(privacyDisclosure.open));
+  });
+
+  footerPrivacyLink?.addEventListener("click", (event) => {
+    event.preventDefault();
+    privacyDisclosure.open = true;
+    privacyDisclosure.scrollIntoView({ behavior: "smooth", block: "start" });
+    privacyDisclosure.querySelector("summary")?.focus({ preventScroll: true });
+  });
+
+  if (window.location.hash === "#privacy") {
+    privacyDisclosure.open = true;
+    requestAnimationFrame(() => privacyDisclosure.scrollIntoView({ block: "start" }));
+  }
+}
+
 const listeningCat = document.querySelector(".listening-cat .cat-still");
 const catMessage = document.querySelector("#cat-message");
 
