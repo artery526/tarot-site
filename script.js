@@ -682,6 +682,7 @@ const reversedMeanings = new Map([
 ]);
 
 const drawButton = document.querySelector("#draw-card-button");
+const drawThreeButton = document.querySelector("#draw-three-button");
 const drawAgainButton = document.querySelector("#draw-again-button");
 const ritualDialog = document.querySelector("#ritual-dialog");
 const startDrawButton = document.querySelector("#start-draw-button");
@@ -697,9 +698,19 @@ const drawName = document.querySelector("#draw-card-name");
 const drawMeaning = document.querySelector("#draw-card-meaning");
 const drawPosition = document.querySelector("#draw-card-position");
 const drawCardFrame = drawImage?.closest(".draw-card-wrap");
+const drawExperienceTitle = document.querySelector("#draw-experience-title");
+const drawExperiencePrompt = drawExperience?.querySelector(".draw-experience-copy > p:last-child");
+const spreadSlots = document.querySelector("#spread-slots");
+const spreadRevealButton = document.querySelector("#spread-reveal-button");
+const spreadResult = document.querySelector("#spread-result");
+const spreadResultCards = document.querySelector("#spread-result-cards");
+const spreadAgainButton = document.querySelector("#spread-again-button");
 let previousCardIndex = -1;
 let isCardRevealPending = false;
 let fanResizeTimer = 0;
+let drawMode = "single";
+let spreadPicks = [];
+const spreadPositions = ["過去", "現在", "未來"];
 
 function shuffleCardIndexes() {
   const indexes = tarotCards.map((_, index) => index);
@@ -718,7 +729,10 @@ function getVisibleFanCount() {
 
 function renderCardFan() {
   if (!cardFan || !cardFanStage || tarotCards.length === 0) return;
-  const availableIndexes = shuffleCardIndexes().filter((index) => index !== previousCardIndex);
+  const pickedIndexes = new Set(spreadPicks.map((pick) => pick.index));
+  const availableIndexes = shuffleCardIndexes().filter((index) => drawMode === "three"
+    ? !pickedIndexes.has(index)
+    : index !== previousCardIndex);
   const visibleIndexes = availableIndexes.slice(0, Math.min(getVisibleFanCount(), availableIndexes.length));
   const fanWidth = cardFanStage.clientWidth || window.innerWidth;
   const fanHeight = cardFanStage.clientHeight || 300;
@@ -736,7 +750,9 @@ function renderCardFan() {
     button.type = "button";
     button.className = "fan-card";
     button.dataset.cardIndex = String(cardIndex);
-    button.setAttribute("aria-label", `選擇第 ${index + 1} 張牌`);
+    button.setAttribute("aria-label", drawMode === "three"
+      ? `選擇扇形第 ${index + 1} 張牌，放入${spreadPositions[spreadPicks.length]}`
+      : `選擇第 ${index + 1} 張牌`);
     button.style.setProperty("--fan-x", `${normalized * maxOffset}px`);
     button.style.setProperty("--fan-y", `${Math.pow(Math.abs(normalized), 1.7) * maxDrop}px`);
     button.style.setProperty("--fan-angle", `${normalized * 39}deg`);
@@ -750,9 +766,84 @@ function renderCardFan() {
     back.setAttribute("aria-hidden", "true");
     inner.append(back);
     button.append(inner);
-    button.addEventListener("click", () => revealSelectedCard(button, cardIndex));
+    button.addEventListener("click", () => {
+      if (drawMode === "three") selectSpreadCard(button, cardIndex);
+      else revealSelectedCard(button, cardIndex);
+    });
     cardFan.append(button);
   });
+}
+
+function selectSpreadCard(button, selectedIndex) {
+  if (isCardRevealPending || !drawExperience?.open || spreadPicks.length >= spreadPositions.length) return;
+  if (!tarotCards[selectedIndex]) return;
+
+  isCardRevealPending = true;
+  button.classList.add("is-picked");
+  cardFan?.querySelectorAll(".fan-card").forEach((fanCard) => { fanCard.disabled = true; });
+  if (cardFanHint) cardFanHint.textContent = `選擇${spreadPositions[spreadPicks.length]}的位置……`;
+  const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 520;
+  window.setTimeout(() => {
+    if (!drawExperience?.open) return;
+    spreadPicks.push({ index: selectedIndex, isReversed: Math.random() < 0.5 });
+    updateSpreadSlots();
+    isCardRevealPending = false;
+    if (spreadPicks.length === spreadPositions.length) {
+      cardFanStage.hidden = true;
+      if (cardFanHint) cardFanHint.textContent = "三張牌已選好，準備翻牌看看。";
+      spreadRevealButton.hidden = false;
+      spreadRevealButton.focus({ preventScroll: true });
+    } else {
+      if (cardFanHint) cardFanHint.textContent = `已選 ${spreadPicks.length}/3 張，請憑直覺選擇${spreadPositions[spreadPicks.length]}。`;
+      renderCardFan();
+      window.requestAnimationFrame(() => cardFan?.querySelector(".fan-card")?.focus({ preventScroll: true }));
+    }
+  }, delay);
+}
+
+function updateSpreadSlots() {
+  if (!spreadSlots) return;
+  spreadSlots.querySelectorAll(".spread-slot").forEach((slot, index) => {
+    slot.classList.toggle("is-filled", Boolean(spreadPicks[index]));
+    slot.setAttribute("aria-label", spreadPicks[index]
+      ? `${spreadPositions[index]}，已選牌`
+      : `${spreadPositions[index]}，待選`);
+  });
+}
+
+function renderSpreadResult() {
+  if (!spreadResultCards) return;
+  spreadResultCards.replaceChildren();
+  spreadPicks.forEach(({ index, isReversed }, positionIndex) => {
+    const card = tarotCards[index];
+    const article = document.createElement("article");
+    article.className = "spread-reading-card";
+    const position = document.createElement("p");
+    position.className = "draw-position";
+    position.textContent = `${spreadPositions[positionIndex]}・${isReversed ? "逆位" : "正位"}`;
+    const frame = document.createElement("div");
+    frame.className = "spread-reading-image";
+    const image = document.createElement("img");
+    image.src = getCardImageUrl(card).href;
+    image.alt = `${card.name}${isReversed ? "逆位" : "正位"}，暖暖貓咪塔羅牌`;
+    image.classList.toggle("is-reversed", isReversed);
+    frame.append(image);
+    const title = document.createElement("h4");
+    title.textContent = card.name;
+    const meaning = document.createElement("p");
+    meaning.className = "spread-reading-meaning";
+    meaning.textContent = isReversed ? reversedMeanings.get(card.file) : card.meaning;
+    article.append(position, frame, title, meaning);
+    spreadResultCards.append(article);
+  });
+}
+
+function revealSpread() {
+  if (spreadPicks.length !== spreadPositions.length || !drawExperience?.open) return;
+  renderSpreadResult();
+  spreadResult.hidden = false;
+  drawExperience.classList.add("is-revealed");
+  spreadAgainButton?.focus({ preventScroll: true });
 }
 
 function getCardImageUrl(card) {
@@ -797,14 +888,26 @@ function revealSelectedCard(button, selectedIndex) {
 }
 
 function openDrawExperience() {
-  if (!drawExperience || !drawButton) return;
+  if (!drawExperience || !drawButton || !drawThreeButton) return;
   drawButton.hidden = true;
+  drawThreeButton.hidden = true;
   drawResult.hidden = true;
+  spreadResult.hidden = true;
+  spreadPicks = [];
+  updateSpreadSlots();
+  spreadRevealButton.hidden = true;
   drawExperience.classList.remove("is-revealed");
+  drawExperience.classList.toggle("is-three-card", drawMode === "three");
+  if (drawExperienceTitle) drawExperienceTitle.textContent = drawMode === "three" ? "抽三張牌" : "抽一張牌";
+  if (drawExperiencePrompt) drawExperiencePrompt.textContent = drawMode === "three"
+    ? "依序選出三張牌，看看過去、現在與未來的流動。"
+    : "看看現在的你，內在狀態如何？";
+  if (spreadSlots) spreadSlots.hidden = drawMode !== "three";
+  if (cardFan) cardFan.setAttribute("aria-label", drawMode === "three" ? "選擇三張貓咪塔羅牌" : "選擇一張貓咪塔羅牌");
   if (cardFanStage) cardFanStage.hidden = false;
   if (cardFanHint) {
     cardFanHint.hidden = false;
-    cardFanHint.textContent = "憑直覺，點選一張牌";
+    cardFanHint.textContent = drawMode === "three" ? "先為「過去」憑直覺選一張牌" : "憑直覺，點選一張牌";
   }
   if (!drawExperience.open) drawExperience.showModal();
   renderCardFan();
@@ -832,12 +935,21 @@ function drawOneCard(selectedIndex, isReversed = Math.random() < 0.5) {
   if (drawButton) drawButton.hidden = true;
 }
 
-function openRitual() {
+function openRitual(mode = "single") {
+  drawMode = mode;
+  const ritualTitle = document.querySelector("#ritual-title");
+  if (ritualTitle) ritualTitle.textContent = mode === "three" ? "抽三張牌前的小小儀式" : "抽牌前的小小儀式";
+  if (startDrawButton) startDrawButton.innerHTML = mode === "three"
+    ? "開始抽三張 <span aria-hidden=\"true\">✦</span>"
+    : "開始抽 <span aria-hidden=\"true\">✦</span>";
   if (ritualDialog && !ritualDialog.open) ritualDialog.showModal();
 }
 
-drawButton?.addEventListener("click", openRitual);
-drawAgainButton?.addEventListener("click", openRitual);
+drawButton?.addEventListener("click", () => openRitual("single"));
+drawThreeButton?.addEventListener("click", () => openRitual("three"));
+drawAgainButton?.addEventListener("click", () => openRitual("single"));
+spreadAgainButton?.addEventListener("click", () => openRitual("three"));
+spreadRevealButton?.addEventListener("click", revealSpread);
 cancelRitualButton?.addEventListener("click", () => ritualDialog?.close());
 startDrawButton?.addEventListener("click", () => {
   if (!ritualDialog?.open) return;
@@ -848,11 +960,17 @@ exitDrawExperienceButton?.addEventListener("click", () => drawExperience?.close(
 drawExperience?.addEventListener("close", () => {
   drawExperience.classList.remove("is-revealed");
   drawResult.hidden = true;
+  spreadResult.hidden = true;
   drawButton.hidden = false;
+  drawThreeButton.hidden = false;
+  drawExperience.classList.remove("is-three-card");
+  spreadPicks = [];
+  spreadRevealButton.hidden = true;
+  if (spreadSlots) spreadSlots.hidden = true;
   if (cardFanStage) cardFanStage.hidden = false;
   if (cardFanHint) cardFanHint.hidden = false;
   isCardRevealPending = false;
-  window.setTimeout(() => drawButton?.focus({ preventScroll: true }), 0);
+  window.setTimeout(() => (drawMode === "three" ? drawThreeButton : drawButton)?.focus({ preventScroll: true }), 0);
 });
 window.addEventListener("resize", () => {
   if (!drawExperience?.open || cardFanStage?.hidden || isCardRevealPending) return;

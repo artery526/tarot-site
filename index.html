@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#fff8eb" />
     <meta name="description" content="Emily塔羅小屋，讓Emily陪你聊聊心事。真人塔羅服務即將開放。" />
     <title>Emily塔羅小屋｜讓Emily陪你聊聊心事</title>
-    <link rel="stylesheet" href="./styles.css?v=20261021-card-fan-1" />
-    <script src="./script.js?v=20261021-card-fan-1" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261022-three-card-1" />
+    <script src="./script.js?v=20261022-three-card-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -44,7 +44,10 @@
             <h2 id="draw-heading">先深呼吸，再抽一張牌</h2>
             <p>在心裡想著最近掛念的事，讓貓咪牌卡陪你看看另一個角度。</p>
           </div>
-          <button class="button draw-button" id="draw-card-button" type="button">抽一張牌 <span aria-hidden="true">✦</span></button>
+          <div class="draw-mode-actions" aria-label="選擇抽牌方式">
+            <button class="button draw-button" id="draw-card-button" type="button">抽一張牌 <span aria-hidden="true">✦</span></button>
+            <button class="button draw-button draw-three-button" id="draw-three-button" type="button">抽三張牌 <span aria-hidden="true">✦</span></button>
+          </div>
           <dialog class="ritual-dialog" id="ritual-dialog" aria-labelledby="ritual-title">
             <div class="ritual-cat" role="img" aria-label="Emily 的貓咪吉祥物陪你準備抽牌"></div>
             <h2 class="ritual-title" id="ritual-title">抽牌前的小小儀式</h2>
@@ -66,10 +69,16 @@
               <h2 id="draw-experience-title">抽一張牌</h2>
               <p>看看現在的你，內在狀態如何？</p>
             </div>
+            <ol class="spread-slots" id="spread-slots" aria-label="三張牌的位置" hidden>
+              <li class="spread-slot" data-position="過去"><span class="spread-slot-card" aria-hidden="true"></span><span>過去</span></li>
+              <li class="spread-slot" data-position="現在"><span class="spread-slot-card" aria-hidden="true"></span><span>現在</span></li>
+              <li class="spread-slot" data-position="未來"><span class="spread-slot-card" aria-hidden="true"></span><span>未來</span></li>
+            </ol>
             <div class="card-fan-stage" id="card-fan-stage">
               <div class="card-fan" id="card-fan" role="group" aria-label="選擇一張貓咪塔羅牌"></div>
             </div>
             <p class="card-fan-hint" id="card-fan-hint" aria-live="polite">憑直覺，點選一張牌</p>
+            <button class="button spread-reveal-button" id="spread-reveal-button" type="button" hidden>翻開三張牌 <span aria-hidden="true">✦</span></button>
             <div class="draw-result" id="draw-result" aria-live="polite" aria-atomic="true" hidden>
               <div class="draw-card-wrap"><img id="draw-card-image" alt="" width="971" height="1620" /></div>
               <div class="draw-reading">
@@ -81,6 +90,13 @@
                 <button class="button button-secondary" id="draw-again-button" type="button">再抽一張 <span aria-hidden="true">↻</span></button>
               </div>
             </div>
+            <section class="spread-result" id="spread-result" aria-live="polite" aria-atomic="true" hidden>
+              <p class="draw-kicker">YOUR THREE CARD GUIDANCE</p>
+              <h3 class="spread-result-title">過去・現在・未來</h3>
+              <div class="spread-result-cards" id="spread-result-cards"></div>
+              <p class="draw-note">把牌陣當成自我整理的靈感，不必視為固定的預言。</p>
+              <button class="button button-secondary" id="spread-again-button" type="button">再抽三張 <span aria-hidden="true">↻</span></button>
+            </section>
           </dialog>
         </div>
       </section>
