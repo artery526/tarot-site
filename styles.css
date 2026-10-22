@@ -90,7 +90,7 @@ h1 span { color: var(--color-primary); }
 .spread-slot.is-filled .spread-slot-card { border-color: #e9d7b3; background: #f8f0dc url("./assets/tarot-cards/card-back.svg") center / 100% 100% no-repeat; transform: translateY(-3px); }
 .spread-reveal-button { flex: 0 0 auto; margin: 12px auto 0; }
 .spread-reveal-button[hidden] { display: none; }
-.spread-result { width: min(100%, 1160px); max-height: calc(100dvh - 96px); padding: 18px clamp(12px, 2vw, 22px); overflow: auto; border: 1px solid rgb(248 242 223 / 25%); border-radius: 22px; background: rgb(18 34 27 / 46%); text-align: center; }
+.spread-result { width: min(100%, 1160px); max-height: calc(100dvh - 96px); padding: 12px clamp(12px, 2vw, 22px); overflow: auto; border: 1px solid rgb(248 242 223 / 25%); border-radius: 22px; background: rgb(18 34 27 / 46%); text-align: center; }
 .spread-result[hidden] { display: none; }
 .spread-result-title { margin: 0 0 16px; color: #f8f2df; font-family: Georgia, "Noto Serif TC", serif; font-size: clamp(1.25rem, 3vw, 1.7rem); }
 .spread-result-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 2vw, 24px); text-align: left; }
@@ -98,7 +98,7 @@ h1 span { color: var(--color-primary); }
 .spread-reading-card:nth-child(2) { animation-delay: .08s; }
 .spread-reading-card:nth-child(3) { animation-delay: .16s; }
 .spread-reading-card .draw-position { margin-inline: auto; }
-.spread-reading-image { width: min(100%, 190px); margin: 10px auto; overflow: hidden; border: 4px solid #fffdf8; border-radius: 10px; box-shadow: 0 8px 18px rgb(121 85 72 / 16%); }
+.spread-reading-image { width: min(100%, 160px); margin: 8px auto; overflow: hidden; border: 4px solid #fffdf8; border-radius: 10px; box-shadow: 0 8px 18px rgb(121 85 72 / 16%); }
 .spread-reading-image img { display: block; width: 100%; height: auto; }
 .spread-reading-image img.is-reversed { transform: rotate(180deg); }
 .spread-reading-card h4 { margin: 7px 0 5px; color: var(--color-text); font-size: 1.05rem; text-align: center; }
