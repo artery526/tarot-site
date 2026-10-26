@@ -189,6 +189,14 @@ a.classroom-card:hover { transform: translateY(-2px); border-color: #e9b28e; bac
 .classroom-card:disabled { color: #9b897d; cursor: not-allowed; opacity: .78; }
 .classroom-card:disabled .classroom-card-badge { color: #b8a89c; }
 .classroom-note { margin: 18px 0 0; color: var(--color-muted); font-size: .82rem; text-align: center; }
+.numerology-teaser { max-width: 980px; margin: 34px auto 0; padding: 23px 26px; display: flex; align-items: center; justify-content: space-between; gap: 22px; border: 1px solid rgb(209 157 116 / 32%); border-radius: 22px; background: linear-gradient(120deg, #fff4e3, #fffdf8 72%); box-shadow: 0 10px 28px rgb(121 85 72 / 6%); }
+.numerology-teaser-copy .eyebrow { margin-bottom: 5px; font-size: .68rem; }
+.numerology-teaser-copy h3 { margin: 0; font-size: 1.15rem; }
+.numerology-teaser-copy > p:last-child { margin: 7px 0 0; color: var(--color-muted); font-size: .86rem; line-height: 1.6; }
+.numerology-teaser-action { display: flex; flex: 0 0 auto; align-items: center; gap: 10px; }
+.numerology-button { min-height: 46px; padding-inline: 18px; background: #c9ad94; box-shadow: none; font-size: .86rem; cursor: not-allowed; }
+.numerology-button:disabled { opacity: .9; }
+.numerology-status { color: #a66f50; font-size: .75rem; font-weight: 800; white-space: nowrap; }
 .section-inner { padding-block: 76px 82px; }
 .section-heading { margin-bottom: 34px; text-align: center; }
 .section-heading .eyebrow { margin-bottom: 9px; }
@@ -284,6 +292,9 @@ h3 { margin: 0; font-size: 1.12rem; }
   .classroom-group summary { min-height: 54px; padding-inline: 15px; }
   .classroom-card-list { grid-template-columns: repeat(2, minmax(0, 1fr)); padding-inline: 11px; }
   .classroom-card { min-height: 52px; padding-inline: 10px; font-size: .82rem; }
+  .numerology-teaser { margin-top: 26px; padding: 20px 17px; align-items: stretch; flex-direction: column; gap: 15px; text-align: center; }
+  .numerology-teaser-action { justify-content: center; flex-wrap: wrap; }
+  .numerology-button { max-width: 100%; min-height: 44px; padding-inline: 14px; font-size: .8rem; }
   .section-heading { margin-bottom: 27px; }
   .plan-grid { max-width: 420px; grid-template-columns: 1fr; gap: 15px; }
   .plan-card { min-height: 0; padding: 20px; }
