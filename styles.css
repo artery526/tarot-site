@@ -37,6 +37,9 @@ h1 .emily-script { color: #795548; font-size: 1.06em; }
 .hero { min-height: 530px; padding-block: 62px 74px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }
 .hero-copy { padding-left: clamp(0px, 4vw, 50px); }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.hero-draw-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
+.numerology-jump-button { min-height: 40px; gap: 9px; padding-inline: 17px; border: 1px solid rgb(197 142 109 / 42%); background: #fffdf8; color: #9b6d52; box-shadow: none; font-size: .84rem; }
+.numerology-jump-button:hover { background: #fff1dc; box-shadow: 0 7px 16px rgb(121 85 72 / 9%); }
 .eyebrow { margin: 0 0 18px; color: #b88161; font-size: .8rem; font-weight: 800; letter-spacing: .15em; }
 .eyebrow span { color: var(--color-primary); }
 h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.28; letter-spacing: .04em; }
@@ -273,7 +276,8 @@ h3 { margin: 0; font-size: 1.12rem; }
   .nav-links a { padding: 13px 4px; }
   .hero { min-height: 0; padding-block: 45px 53px; grid-template-columns: 1fr; gap: 30px; }
   .hero-copy { padding-left: 0; text-align: center; }
-  .hero-actions { justify-content: center; gap: 9px; }
+  .hero-actions { flex-direction: column; align-items: center; gap: 13px; }
+  .hero-draw-actions { align-items: center; }
   .hero-actions .button { padding-inline: 17px; }
   .hero-copy .eyebrow { margin-bottom: 13px; }
   h1 { font-size: clamp(2.35rem, 11vw, 3.2rem); }
