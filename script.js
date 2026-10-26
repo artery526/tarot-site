@@ -16,6 +16,256 @@ navigation?.querySelectorAll("a").forEach((link) => {
   });
 });
 
+const lifePathProfiles = {
+  1: {
+    name: "勇敢的小太陽", emoji: "☀️", keywords: "獨立、勇氣、開創、行動力",
+    strength: "你喜歡用自己的方式探索世界，擁有獨立思考與勇於嘗試的特質。當你相信自己時，往往能踏出勇敢的第一步。",
+    cloud: "有時候，你可能太習慣自己承擔，忘記其實也可以向別人尋求幫助。",
+    growth: "練習相信夥伴，讓合作成為另一種力量。",
+    message: "你不需要永遠勇敢，偶爾依靠別人，也是一種溫柔的力量。",
+  },
+  2: {
+    name: "溫柔的小月亮", emoji: "🌙", keywords: "溫柔、敏感、體貼、同理心",
+    strength: "你擁有細膩的感受力，善於傾聽與理解別人。你的陪伴，常常能帶給身邊的人安心與溫暖。",
+    cloud: "有時候，你太在意別人的感受，反而忽略了自己的需要。",
+    growth: "練習說出真正的想法，為自己的溫柔建立界線。",
+    message: "你不需要一直懂事，也值得被好好疼愛。",
+  },
+  3: {
+    name: "快樂的小畫家", emoji: "🎨", keywords: "創意、表達、樂觀、想像力",
+    strength: "你擁有豐富的想像力，喜歡透過自己的方式表達想法，也常常為生活帶來歡笑與色彩。",
+    cloud: "有時候，太多新鮮有趣的事物會讓你難以專注，也可能習慣用笑容藏起難過。",
+    growth: "允許自己慢慢完成一件事，也允許自己有不開心的時候。",
+    message: "你不必每天都閃閃發光，安靜的你也一樣可愛。",
+  },
+  4: {
+    name: "安心的小園丁", emoji: "🌱", keywords: "穩定、踏實、耐心、責任感",
+    strength: "你喜歡一步一步建立生活，擁有耐心與責任感。你的穩定，常常讓身邊的人感到安心。",
+    cloud: "有時候，你可能太要求自己，害怕計畫被打亂，忘記生活也需要喘息。",
+    growth: "練習接受不完美，讓自己偶爾放慢腳步。",
+    message: "休息不是偷懶，而是讓心重新長出力量。",
+  },
+  5: {
+    name: "自由的小旅人", emoji: "🦋", keywords: "自由、好奇、探索、適應力",
+    strength: "你喜歡探索不同的可能，對世界充滿好奇，也擁有適應變化的能力。",
+    cloud: "有時候，你可能因為害怕受到限制，而對長期承諾感到猶豫。",
+    growth: "找到自由與穩定之間的平衡，讓每次探索都成為成長的養分。",
+    message: "自由不是一定要遠走，而是能安心選擇自己想要的生活。",
+  },
+  6: {
+    name: "暖心的小守護者", emoji: "💗", keywords: "關懷、照顧、責任、溫暖",
+    strength: "你重視身邊重要的人，願意付出時間與心力，讓他們感受到被愛與被照顧。",
+    cloud: "有時候，你可能承擔太多責任，甚至把別人的幸福當成自己的任務。",
+    growth: "學習照顧自己，理解愛不需要建立在犧牲之上。",
+    message: "你的價值，不是因為照顧了多少人，而是因為你本來就值得被愛。",
+  },
+  7: {
+    name: "智慧的小星星", emoji: "⭐", keywords: "思考、觀察、探索、智慧",
+    strength: "你喜歡思考事物背後的原因，也重視知識與內在世界。安靜的時光，常常讓你找到新的理解。",
+    cloud: "有時候，你可能想得太多，把情緒藏在心裡，讓自己感到疲憊。",
+    growth: "練習分享感受，也接受人生不一定有標準答案。",
+    message: "有些答案不需要急著找到，慢慢走，也會看見自己的光。",
+  },
+  8: {
+    name: "堅定的小築夢家", emoji: "🏰", keywords: "目標、實踐、管理、成就",
+    strength: "你重視目標與行動，願意為夢想投入努力，也可能擅長規劃與整合資源。",
+    cloud: "有時候，你可能太在意成果，忘記傾聽自己的疲憊與感受。",
+    growth: "重新定義成功，讓生活不只有成就，也有快樂與平靜。",
+    message: "你不需要用成績證明自己，你的存在本身就很珍貴。",
+  },
+  9: {
+    name: "慈愛的小天使", emoji: "🕊️", keywords: "包容、理想、同理心、慈悲",
+    strength: "你容易關心他人的處境，也可能對藝術、人文與有意義的事情充滿熱情。",
+    cloud: "有時候，你可能太容易承接別人的難過，或難以放下過去的遺憾。",
+    growth: "學習放下不屬於自己的責任，將一部分溫柔留給自己。",
+    message: "你可以關心整個世界，但別忘了，你也是值得被照顧的人。",
+  },
+};
+
+const numerologyForm = document.querySelector("#numerology-form");
+const numerologyDateInput = document.querySelector("#numerology-birthdate");
+const numerologyFormFeedback = document.querySelector("#numerology-form-feedback");
+const numerologyResult = document.querySelector("#numerology-result");
+const numerologyResultContent = document.querySelector("#numerology-result-content");
+const numerologyCopyButton = document.querySelector("#numerology-copy");
+const numerologyResetButton = document.querySelector("#numerology-reset");
+const numerologyCopyFeedback = document.querySelector("#numerology-copy-feedback");
+const numerologyBrowseResult = document.querySelector("#numerology-browse-result");
+const numerologyBrowsePrompt = document.querySelector("#numerology-browse-prompt");
+
+if (numerologyForm && numerologyDateInput && numerologyResult && numerologyResultContent) {
+  let currentProfileNumber = null;
+  let currentCalculation = null;
+
+  const getLocalDateValue = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  };
+  numerologyDateInput.max = getLocalDateValue();
+
+  const createTextElement = (tagName, className, text) => {
+    const element = document.createElement(tagName);
+    if (className) element.className = className;
+    element.textContent = text;
+    return element;
+  };
+
+  const renderLifePathProfile = (container, number, calculation = null) => {
+    const profile = lifePathProfiles[number];
+    const article = document.createElement("article");
+    article.className = "numerology-profile-card";
+    article.setAttribute("aria-labelledby", `numerology-profile-${container.id}-title`);
+
+    const heading = document.createElement("header");
+    heading.className = "numerology-profile-heading";
+    const mascot = createTextElement("span", "numerology-mascot", profile.emoji);
+    mascot.setAttribute("aria-hidden", "true");
+    const headingCopy = document.createElement("div");
+    headingCopy.append(
+      createTextElement("p", "numerology-profile-number", `${number} 號生命靈數`),
+      createTextElement("h5", "numerology-profile-title", profile.name),
+      createTextElement("p", "numerology-keywords", `性格關鍵字：${profile.keywords}`),
+    );
+    headingCopy.querySelector(".numerology-profile-title")?.setAttribute("id", `numerology-profile-${container.id}-title`);
+    heading.append(mascot, headingCopy);
+    article.append(heading);
+
+    if (calculation) {
+      article.append(createTextElement("p", "numerology-math", `${calculation.formattedDate} → ${calculation.steps.join(" → ")}`));
+    }
+
+    const traits = document.createElement("div");
+    traits.className = "numerology-traits-grid";
+    [
+      ["🌷 你的閃亮特質", profile.strength],
+      ["☁️ 偶爾出現的小烏雲", profile.cloud],
+      ["🌱 今天的成長魔法", profile.growth],
+    ].forEach(([title, text]) => {
+      const item = document.createElement("section");
+      item.className = "numerology-trait";
+      item.append(createTextElement("h6", "", title), createTextElement("p", "", text));
+      traits.append(item);
+    });
+    article.append(traits);
+
+    const mantra = document.createElement("blockquote");
+    mantra.className = "numerology-mantra";
+    mantra.append(createTextElement("h6", "", "💗 送給你的溫柔小語"));
+    mantra.append(createTextElement("p", "", `「${profile.message}」`));
+    article.append(mantra);
+    container.replaceChildren(article);
+  };
+
+  const setFormFeedback = (message, isError = false) => {
+    if (!numerologyFormFeedback) return;
+    numerologyFormFeedback.textContent = message;
+    numerologyFormFeedback.classList.toggle("is-error", isError);
+  };
+
+  numerologyDateInput.addEventListener("input", () => {
+    numerologyDateInput.setAttribute("aria-invalid", "false");
+    setFormFeedback("");
+    numerologyCopyFeedback && (numerologyCopyFeedback.textContent = "");
+    if (numerologyDateInput.value !== currentCalculation?.inputValue) {
+      numerologyResult.hidden = true;
+      numerologyResultContent.replaceChildren();
+      currentProfileNumber = null;
+      currentCalculation = null;
+    }
+  });
+
+  numerologyForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const calculation = window.EmilyNumerology?.calculateLifePathNumber(numerologyDateInput.value);
+    if (!calculation?.valid) {
+      numerologyDateInput.setAttribute("aria-invalid", "true");
+      setFormFeedback(calculation?.error ?? "計算功能暫時無法使用，請重新整理頁面後再試。", true);
+      numerologyDateInput.focus();
+      return;
+    }
+
+    currentProfileNumber = calculation.number;
+    currentCalculation = { ...calculation, inputValue: numerologyDateInput.value };
+    renderLifePathProfile(numerologyResultContent, currentProfileNumber, calculation);
+    numerologyResult.hidden = false;
+    numerologyDateInput.setAttribute("aria-invalid", "false");
+    setFormFeedback("");
+    if (numerologyCopyFeedback) numerologyCopyFeedback.textContent = "";
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => numerologyResult.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" }));
+  });
+
+  numerologyResetButton?.addEventListener("click", () => {
+    numerologyForm.reset();
+    numerologyResult.hidden = true;
+    numerologyResultContent.replaceChildren();
+    currentProfileNumber = null;
+    currentCalculation = null;
+    numerologyDateInput.setAttribute("aria-invalid", "false");
+    setFormFeedback("");
+    if (numerologyCopyFeedback) numerologyCopyFeedback.textContent = "";
+    numerologyDateInput.focus();
+  });
+
+  const buildCopyText = (number) => {
+    const profile = lifePathProfiles[number];
+    return [
+      `${number} 號｜${profile.name} ${profile.emoji}`,
+      `性格關鍵字：${profile.keywords}`,
+      `🌷 你的閃亮特質：${profile.strength}`,
+      `☁️ 偶爾出現的小烏雲：${profile.cloud}`,
+      `🌱 今天的成長魔法：${profile.growth}`,
+      `💗 送給你的溫柔小語：「${profile.message}」`,
+      "",
+      "生命靈數是一種自我探索靈感，不能決定一個人的命運。",
+      "Emily 塔羅小屋：https://emilytarot.pages.dev/",
+    ].join("\n");
+  };
+
+  const copyWithFallback = async (text) => {
+    if (navigator.clipboard?.writeText && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const temporaryField = document.createElement("textarea");
+    temporaryField.value = text;
+    temporaryField.setAttribute("readonly", "");
+    temporaryField.setAttribute("aria-hidden", "true");
+    temporaryField.style.position = "fixed";
+    temporaryField.style.left = "-9999px";
+    document.body.append(temporaryField);
+    temporaryField.select();
+    const copied = document.execCommand("copy");
+    temporaryField.remove();
+    if (!copied) throw new Error("Clipboard copy was not available.");
+  };
+
+  numerologyCopyButton?.addEventListener("click", async () => {
+    if (!currentProfileNumber || !numerologyCopyFeedback) return;
+    try {
+      await copyWithFallback(buildCopyText(currentProfileNumber));
+      numerologyCopyFeedback.textContent = "已複製生命靈數介紹，可以分享給想陪伴的人囉。";
+      numerologyCopyFeedback.classList.remove("is-error");
+    } catch {
+      numerologyCopyFeedback.textContent = "複製沒有成功，請選取上方解讀文字後自行複製。";
+      numerologyCopyFeedback.classList.add("is-error");
+    }
+  });
+
+  document.querySelectorAll("[data-life-path-number]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const number = Number(button.getAttribute("data-life-path-number"));
+      if (!lifePathProfiles[number] || !numerologyBrowseResult || !numerologyBrowsePrompt) return;
+      document.querySelectorAll("[data-life-path-number]").forEach((numberButton) => {
+        numberButton.setAttribute("aria-pressed", String(numberButton === button));
+      });
+      renderLifePathProfile(numerologyBrowseResult, number);
+      numerologyBrowseResult.hidden = false;
+      numerologyBrowsePrompt.hidden = true;
+    });
+  });
+}
+
 const privacyDisclosure = document.querySelector("#privacy");
 const footerPrivacyLink = document.querySelector(".footer-privacy-link");
 

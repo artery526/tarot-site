@@ -6,8 +6,9 @@
     <meta name="theme-color" content="#fff8eb" />
     <meta name="description" content="Emily塔羅小屋，讓Emily陪你聊聊心事。真人塔羅服務即將開放。" />
     <title>Emily塔羅小屋｜讓Emily陪你聊聊心事</title>
-    <link rel="stylesheet" href="./styles.css?v=20261026-hero-notes-2" />
-    <script src="./script.js?v=20261026-classroom-1" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20261026-numerology-interactive-1" />
+    <script src="./numerology-core.js?v=20261026-numerology-1" defer></script>
+    <script src="./script.js?v=20261026-numerology-1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -106,15 +107,61 @@
           <div class="classroom-groups" id="classroom-groups"></div>
           <p class="classroom-note">目前收錄「0｜愚者」、「1｜魔術師」、「2｜女祭司」、「3｜女皇」、「4｜皇帝」與「5｜教皇」影片，其他牌卡影片會陸續加入。</p>
           <div class="numerology-teaser" id="numerology" aria-labelledby="numerology-teaser-heading">
-            <div class="numerology-teaser-copy">
+            <header class="numerology-intro">
               <p class="eyebrow">A LITTLE UNIVERSE</p>
-              <h3 id="numerology-teaser-heading">遇見你的生命靈數</h3>
-              <p>輸入出生年月日，認識專屬數字與簡單人格小介紹。</p>
+              <h3 id="numerology-teaser-heading">生命靈數・遇見自己的小宇宙</h3>
+              <p>用出生日期認識生命靈數，為自己留一點溫柔探索的時間。</p>
+              <p class="numerology-privacy-note">🔒 生日只在這個瀏覽器裡計算，不會傳送或儲存。</p>
+            </header>
+
+            <form class="numerology-form" id="numerology-form" action="#numerology" novalidate>
+              <label for="numerology-birthdate">請選擇你的西元出生年月日</label>
+              <input id="numerology-birthdate" type="date" required autocomplete="off" aria-describedby="numerology-date-help numerology-form-feedback" aria-invalid="false" />
+              <p class="numerology-date-help" id="numerology-date-help">日期僅用於本機即時計算，不會寫入網站或瀏覽器儲存空間。</p>
+              <button class="button numerology-submit" id="numerology-submit" type="submit">✨ 開啟我的生命靈數</button>
+              <p class="numerology-feedback" id="numerology-form-feedback" role="status" aria-live="polite"></p>
+            </form>
+
+            <div class="numerology-personal-result" id="numerology-result" hidden>
+              <div id="numerology-result-content" aria-live="polite" aria-atomic="true"></div>
+              <div class="numerology-result-actions">
+                <button class="button numerology-copy-button" id="numerology-copy" type="button">複製我的生命靈數解讀</button>
+                <button class="button numerology-reset-button" id="numerology-reset" type="button">重新計算</button>
+              </div>
+              <p class="numerology-copy-feedback" id="numerology-copy-feedback" role="status" aria-live="polite"></p>
             </div>
-            <div class="numerology-teaser-action">
-              <button class="button numerology-button" type="button" disabled>生命靈數・遇見自己的小宇宙</button>
-              <span class="numerology-status">準備開張</span>
-            </div>
+
+            <p class="numerology-disclaimer">生命靈數是一種數字命理文化，適合作為認識自己的靈感，並非科學人格測驗，也不能決定一個人的命運。每個人都擁有改變與成長的可能。</p>
+
+            <section class="numerology-classroom" aria-labelledby="numerology-classroom-heading">
+              <div class="numerology-classroom-heading">
+                <p class="eyebrow">MEET YOUR LITTLE UNIVERSE</p>
+                <h4 id="numerology-classroom-heading">認識 1～9 號生命靈數</h4>
+                <p>不輸入生日也可以，挑一個數字，看看它帶來的小小提醒。</p>
+              </div>
+              <div class="numerology-number-grid" role="group" aria-label="選擇生命靈數">
+                <button class="numerology-number-button" type="button" data-life-path-number="1" aria-label="閱讀 1 號生命靈數" aria-pressed="false">1 <span>☀️</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="2" aria-label="閱讀 2 號生命靈數" aria-pressed="false">2 <span>🌙</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="3" aria-label="閱讀 3 號生命靈數" aria-pressed="false">3 <span>🎨</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="4" aria-label="閱讀 4 號生命靈數" aria-pressed="false">4 <span>🌱</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="5" aria-label="閱讀 5 號生命靈數" aria-pressed="false">5 <span>🦋</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="6" aria-label="閱讀 6 號生命靈數" aria-pressed="false">6 <span>💗</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="7" aria-label="閱讀 7 號生命靈數" aria-pressed="false">7 <span>⭐</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="8" aria-label="閱讀 8 號生命靈數" aria-pressed="false">8 <span>🏰</span></button>
+                <button class="numerology-number-button" type="button" data-life-path-number="9" aria-label="閱讀 9 號生命靈數" aria-pressed="false">9 <span>🕊️</span></button>
+              </div>
+              <div class="numerology-browse-result" id="numerology-browse-result" aria-live="polite" aria-atomic="true" hidden></div>
+              <p class="numerology-browse-prompt" id="numerology-browse-prompt">選一個讓你有感覺的數字，閱讀它的生命靈數小介紹。</p>
+            </section>
+
+            <details class="numerology-knowledge">
+              <summary>生命靈數小知識</summary>
+              <div class="numerology-knowledge-copy">
+                <p>生命道路數一般使用 1～9，部分命理流派另有 11、22、33 等大師數。</p>
+                <p>0 在某些數字象徵系統中代表潛能與起點，但不是本計算器的獨立結果。</p>
+                <p>本網站採用簡單的數字化約算法，適合初學者。</p>
+              </div>
+            </details>
           </div>
         </div>
       </section>
