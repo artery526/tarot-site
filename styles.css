@@ -41,8 +41,8 @@ h1 .emily-script { color: #795548; font-size: 1.06em; }
 .hero-cta { display: grid; justify-items: start; gap: 5px; }
 .button-note { margin: 0; color: var(--color-muted); font-size: .78rem; line-height: 1.5; }
 .numerology-note { color: #a77f68; }
-.numerology-jump-button { min-height: 40px; gap: 9px; padding-inline: 17px; border: 1px solid rgb(197 142 109 / 42%); background: #fffdf8; color: #9b6d52; box-shadow: none; font-size: .84rem; }
-.numerology-jump-button:hover { background: #fff1dc; box-shadow: 0 7px 16px rgb(121 85 72 / 9%); }
+.button.numerology-jump-button { min-height: 40px; gap: 9px; padding-inline: 17px; border: 1px solid rgb(197 142 109 / 42%); background: #fffdf8; color: #9b6d52; box-shadow: none; font-size: .84rem; }
+.button.numerology-jump-button:hover { background: #fff1dc; box-shadow: 0 7px 16px rgb(121 85 72 / 9%); }
 .eyebrow { margin: 0 0 18px; color: #b88161; font-size: .8rem; font-weight: 800; letter-spacing: .15em; }
 .eyebrow span { color: var(--color-primary); }
 h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.28; letter-spacing: .04em; }
