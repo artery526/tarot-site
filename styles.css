@@ -36,6 +36,8 @@ h1 .emily-script { color: #795548; font-size: 1.06em; }
 .menu-toggle { display: none; }
 .hero { min-height: 530px; padding-block: 62px 74px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }
 .hero-copy { padding-left: clamp(0px, 4vw, 50px); }
+.hero-heading-row { min-width: 0; }
+.hero-character { display: none; }
 .hero-actions { width: 100%; display: grid; justify-items: start; gap: 12px; }
 .hero-cta { display: grid; justify-items: start; gap: 5px; }
 .hero-secondary-actions { width: min(100%, 440px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 10px; }
@@ -333,10 +335,13 @@ h3 { margin: 0; font-size: 1.12rem; }
   .hero-secondary-item .button { min-height: 48px; padding-inline: 7px; font-size: clamp(.72rem, 3.2vw, .82rem); }
   .hero-secondary-item .button-note { text-align: center; }
   .hero-copy .eyebrow { margin-bottom: 13px; }
-  h1 { font-size: clamp(2.35rem, 11vw, 3.2rem); }
+  .hero-heading-row { display: grid; grid-template-columns: minmax(0, 1fr) clamp(92px, 27vw, 116px); align-items: center; gap: clamp(3px, 1.8vw, 8px); text-align: left; }
+  .hero-heading-row h1 { min-width: 0; font-size: clamp(1.85rem, 8.8vw, 2.35rem); line-height: 1.28; letter-spacing: .01em; text-align: left; }
+  .hero-character { width: 100%; aspect-ratio: 2 / 3; position: relative; display: block; isolation: isolate; }
+  .hero-character-frame { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .42s ease; }
+  .hero-character-frame.is-active { opacity: 1; }
+  .hero-art { display: none; }
   .hero-lead { margin: 14px 0 21px; }
-  .hero-art { min-height: 300px; }
-  .tarot-card { width: 151px; height: 220px; }.moon { top: 18px; font-size: 60px; }
   .draw-inner { padding-block: 51px 56px; }
   .draw-result { max-width: 390px; margin-top: 28px; padding: 20px; grid-template-columns: 1fr; gap: 24px; text-align: center; }
   .draw-card-wrap { width: min(58%, 220px); }
@@ -369,7 +374,8 @@ h3 { margin: 0; font-size: 1.12rem; }
   .container { width: calc(100% - 32px); }
   .brand { gap: 7px; font-size: .92rem; }
   .hero { padding-top: 37px; }
-  .hero-art { min-height: 270px; }
+  .hero-heading-row { grid-template-columns: minmax(0, 1fr) 84px; gap: 4px; }
+  .hero-heading-row h1 { font-size: 1.65rem; }
   .plan-card { grid-template-columns: 42px minmax(0, 1fr); gap: 4px 12px; padding: 17px; }
   .plan-icon { width: 42px; height: 42px; }
   .about { grid-template-columns: minmax(88px, 30%) minmax(0, 1fr); gap: 10px; }

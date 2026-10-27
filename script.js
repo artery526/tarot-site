@@ -290,6 +290,122 @@ if (privacyDisclosure instanceof HTMLDetailsElement) {
 const listeningCat = document.querySelector(".listening-cat .cat-still");
 const catMessage = document.querySelector("#cat-message");
 
+const heroCharacter = document.querySelector("#hero-character");
+
+if (heroCharacter) {
+  const characterAnimation = {
+    frames: {
+      idle: "frame-02.webp",
+      point: "frame-01.webp",
+      blessing: "frame-03.webp",
+    },
+    actions: ["point", "blessing"],
+    idleDelay: [7200, 11800],
+    actionHold: [1500, 2100],
+  };
+  const frameBasePath = "./assets/characters/emily/";
+  const frameSources = Object.fromEntries(
+    Object.entries(characterAnimation.frames).map(([name, file]) => [name, `${frameBasePath}${file}`]),
+  );
+  const frameSlots = [...heroCharacter.querySelectorAll(".hero-character-frame")];
+  const mobileViewport = window.matchMedia("(max-width: 700px)");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let activeSlot = 0;
+  let actionIndex = 0;
+  let animationRun = 0;
+  let actionTimer;
+  let preloadPromise;
+
+  const randomBetween = ([min, max]) => Math.round(min + Math.random() * (max - min));
+  const canAnimateHero = () => mobileViewport.matches && !reduceMotion.matches && !document.hidden;
+
+  function preloadHeroFrames() {
+    if (!preloadPromise) {
+      preloadPromise = Promise.all(Object.values(frameSources).map(async (src) => {
+        const frame = new Image();
+        frame.src = src;
+        await frame.decode();
+        return src;
+      }));
+    }
+    return preloadPromise;
+  }
+
+  async function showHeroFrame(name, run, immediate = false) {
+    const nextSlotIndex = immediate ? activeSlot : 1 - activeSlot;
+    const nextSlot = frameSlots[nextSlotIndex];
+    if (!nextSlot) return false;
+
+    if (nextSlot.getAttribute("src") !== frameSources[name]) {
+      nextSlot.src = frameSources[name];
+      try {
+        await nextSlot.decode();
+      } catch {
+        return false;
+      }
+    }
+    if (!immediate && run !== animationRun) return false;
+
+    if (immediate) {
+      frameSlots.forEach((slot, index) => slot.classList.toggle("is-active", index === nextSlotIndex));
+      activeSlot = nextSlotIndex;
+      return true;
+    }
+
+    nextSlot.classList.add("is-active");
+    frameSlots[activeSlot]?.classList.remove("is-active");
+    activeSlot = nextSlotIndex;
+    return true;
+  }
+
+  function scheduleHeroAction(run, delay) {
+    if (run !== animationRun || !canAnimateHero()) return;
+
+    actionTimer = window.setTimeout(async () => {
+      if (run !== animationRun || !canAnimateHero()) return;
+      const action = characterAnimation.actions[actionIndex % characterAnimation.actions.length];
+      actionIndex += 1;
+      if (!await showHeroFrame(action, run)) return;
+
+      actionTimer = window.setTimeout(async () => {
+        if (run !== animationRun || !canAnimateHero()) return;
+        if (!await showHeroFrame("idle", run)) return;
+        scheduleHeroAction(run, randomBetween(characterAnimation.idleDelay));
+      }, randomBetween(characterAnimation.actionHold));
+    }, delay);
+  }
+
+  function stopHeroAnimation() {
+    animationRun += 1;
+    window.clearTimeout(actionTimer);
+    actionTimer = null;
+    showHeroFrame("idle", animationRun, true);
+  }
+
+  async function startHeroAnimation() {
+    stopHeroAnimation();
+    if (!canAnimateHero()) return;
+
+    const run = animationRun;
+    try {
+      await preloadHeroFrames();
+      if (run === animationRun && canAnimateHero()) {
+        scheduleHeroAction(run, randomBetween(characterAnimation.idleDelay));
+      }
+    } catch {
+      // Keep the calm, preloaded idle illustration if an optional pose cannot load.
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopHeroAnimation();
+    else startHeroAnimation();
+  });
+  mobileViewport.addEventListener("change", startHeroAnimation);
+  reduceMotion.addEventListener("change", startHeroAnimation);
+  startHeroAnimation();
+}
+
 if (catMessage) {
   const warmMessages = [
     "今天也辛苦了，先好好抱抱自己。",
