@@ -290,9 +290,9 @@ if (privacyDisclosure instanceof HTMLDetailsElement) {
 const listeningCat = document.querySelector(".listening-cat .cat-still");
 const catMessage = document.querySelector("#cat-message");
 
-const heroCharacter = document.querySelector("#hero-character");
+const heroCharacters = [...document.querySelectorAll(".hero-character")];
 
-if (heroCharacter) {
+if (heroCharacters.length) {
   const characterAnimation = {
     frames: {
       idle: "frame-02.webp",
@@ -307,8 +307,7 @@ if (heroCharacter) {
   const frameSources = Object.fromEntries(
     Object.entries(characterAnimation.frames).map(([name, file]) => [name, `${frameBasePath}${file}`]),
   );
-  const frameSlots = [...heroCharacter.querySelectorAll(".hero-character-frame")];
-  const mobileViewport = window.matchMedia("(max-width: 700px)");
+  const frameSlots = heroCharacters.map((character) => [...character.querySelectorAll(".hero-character-frame")]);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let activeSlot = 0;
   let actionIndex = 0;
@@ -317,7 +316,7 @@ if (heroCharacter) {
   let preloadPromise;
 
   const randomBetween = ([min, max]) => Math.round(min + Math.random() * (max - min));
-  const canAnimateHero = () => mobileViewport.matches && !reduceMotion.matches && !document.hidden;
+  const canAnimateHero = () => !reduceMotion.matches && !document.hidden;
 
   function preloadHeroFrames() {
     if (!preloadPromise) {
@@ -333,27 +332,31 @@ if (heroCharacter) {
 
   async function showHeroFrame(name, run, immediate = false) {
     const nextSlotIndex = immediate ? activeSlot : 1 - activeSlot;
-    const nextSlot = frameSlots[nextSlotIndex];
-    if (!nextSlot) return false;
+    const nextSlots = frameSlots.map((slots) => slots[nextSlotIndex]).filter(Boolean);
+    if (!nextSlots.length) return false;
 
-    if (nextSlot.getAttribute("src") !== frameSources[name]) {
-      nextSlot.src = frameSources[name];
-      try {
-        await nextSlot.decode();
-      } catch {
-        return false;
-      }
+    try {
+      await Promise.all(nextSlots.map(async (nextSlot) => {
+        if (nextSlot.getAttribute("src") !== frameSources[name]) {
+          nextSlot.src = frameSources[name];
+          await nextSlot.decode();
+        }
+      }));
+    } catch {
+      return false;
     }
     if (!immediate && run !== animationRun) return false;
 
     if (immediate) {
-      frameSlots.forEach((slot, index) => slot.classList.toggle("is-active", index === nextSlotIndex));
+      frameSlots.forEach((slots) => slots.forEach((slot, index) => slot.classList.toggle("is-active", index === nextSlotIndex)));
       activeSlot = nextSlotIndex;
       return true;
     }
 
-    nextSlot.classList.add("is-active");
-    frameSlots[activeSlot]?.classList.remove("is-active");
+    frameSlots.forEach((slots) => {
+      slots[nextSlotIndex]?.classList.add("is-active");
+      slots[activeSlot]?.classList.remove("is-active");
+    });
     activeSlot = nextSlotIndex;
     return true;
   }
@@ -401,7 +404,6 @@ if (heroCharacter) {
     if (document.hidden) stopHeroAnimation();
     else startHeroAnimation();
   });
-  mobileViewport.addEventListener("change", startHeroAnimation);
   reduceMotion.addEventListener("change", startHeroAnimation);
   startHeroAnimation();
 }
