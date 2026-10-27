@@ -67,6 +67,22 @@ h1 span { color: var(--color-primary); }
 .sparkle { position: absolute; color: #d99e60; }.sparkle-one { top: 25%; left: 23%; font-size: 26px; }.sparkle-two { bottom: 24%; right: 20%; font-size: 32px; }
 .art-caption { position: absolute; bottom: 25px; color: #a78166; font-size: .83rem; letter-spacing: .08em; }
 .free-draw { padding-block: 1px; background: linear-gradient(180deg, #fff4e3, #fff8eb); border-block: 1px solid rgb(209 157 116 / 15%); }
+.weekly-reading-section { border-block: 1px solid rgb(209 157 116 / 18%); background: linear-gradient(180deg, #fff8eb, #fff3df); }
+.weekly-reading-inner { padding-block: 66px 72px; }
+.weekly-reading-heading { margin-bottom: 29px; }
+.weekly-bulletin { max-width: 800px; margin-inline: auto; padding: clamp(20px, 4vw, 34px); border: 1px solid #d8b77e; border-radius: 22px; background: linear-gradient(145deg, #fffdf7, #fff8e9); box-shadow: 0 14px 38px rgb(121 85 72 / 9%), inset 0 0 0 5px rgb(255 241 220 / 62%); }
+.weekly-bulletin-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding-bottom: 18px; border-bottom: 1px dashed rgb(169 125 83 / 30%); }
+.weekly-bulletin-kicker { margin: 0 0 7px; color: #b88161; font-size: .75rem; font-weight: 800; letter-spacing: .13em; }
+.weekly-bulletin-header h3 { font-size: clamp(1.05rem, 3vw, 1.25rem); line-height: 1.5; }
+.weekly-bulletin-status { flex: 0 0 auto; padding: 7px 12px; border: 1px solid rgb(189 116 92 / 22%); border-radius: 999px; background: #fff0e8; color: #ad6952; font-size: .78rem; font-weight: 800; }
+.weekly-bulletin-note { margin: 17px 0 19px; color: var(--color-muted); font-size: .9rem; line-height: 1.7; }
+.weekly-choice-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 3vw, 22px); }
+.weekly-choice-card { min-width: 0; padding: clamp(10px, 2.5vw, 18px); border: 1px solid rgb(209 157 116 / 25%); border-radius: 17px; background: rgb(255 255 255 / 70%); text-align: center; }
+.weekly-card-back { width: min(100%, 112px); margin-inline: auto; overflow: hidden; border-radius: 8px; box-shadow: 0 7px 16px rgb(121 85 72 / 12%); }
+.weekly-card-back img { display: block; width: 100%; height: auto; }
+.weekly-choice-card h4 { margin: 11px 0 0; display: grid; gap: 3px; color: #86644e; font-size: 1rem; }
+.weekly-choice-status { color: #ae8972; font-size: .76rem; font-weight: 500; }
+.weekly-reveal-note { margin: 20px 0 0; color: #9a765e; font-size: .82rem; text-align: center; letter-spacing: .04em; }
 .draw-inner { padding-block: 66px 72px; text-align: center; }
 .draw-heading { margin-bottom: 22px; }
 .draw-heading > p:last-child { max-width: 590px; margin-inline: auto; line-height: 1.8; }
@@ -344,6 +360,16 @@ h3 { margin: 0; font-size: 1.12rem; }
   .hero-art { display: none; }
   .hero-lead { margin: 14px 0 21px; }
   .draw-inner { padding-block: 51px 56px; }
+  .weekly-reading-inner { padding-block: 51px 56px; }
+  .weekly-reading-heading { margin-bottom: 23px; }
+  .weekly-bulletin { padding: 18px 15px; border-radius: 19px; }
+  .weekly-bulletin-header { gap: 8px; padding-bottom: 14px; }
+  .weekly-bulletin-status { padding: 6px 10px; font-size: .72rem; }
+  .weekly-choice-grid { gap: 8px; }
+  .weekly-choice-card { padding: 9px 6px; border-radius: 13px; }
+  .weekly-card-back { width: min(100%, 92px); }
+  .weekly-choice-card h4 { margin-top: 9px; font-size: .92rem; }
+  .weekly-choice-status { font-size: .7rem; }
   .draw-result { max-width: 390px; margin-top: 28px; padding: 20px; grid-template-columns: 1fr; gap: 24px; text-align: center; }
   .draw-card-wrap { width: min(58%, 220px); }
   .draw-reading h3 { font-size: 1.5rem; }
