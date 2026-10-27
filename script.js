@@ -505,7 +505,7 @@ const tarotCards = [
 ];
 
 const classroomGroups = [
-  { label: "大阿爾克那", start: 0, end: 21, open: true },
+  { label: "大阿爾克那", start: 0, end: 21 },
   { label: "權杖", start: 22, end: 35 },
   { label: "聖杯", start: 36, end: 49 },
   { label: "寶劍", start: 50, end: 63 },
@@ -543,6 +543,8 @@ if (classroomGroupsElement) {
     25: "https://vt.tiktok.com/ZSgCF3KDH/",
     26: "https://vt.tiktok.com/ZSgCFoMDW/",
     27: "https://vt.tiktok.com/ZSgCFKxsy/",
+    28: "https://vt.tiktok.com/ZSgV68uwL/",
+    29: "https://vt.tiktok.com/ZSgVjwJew/",
   };
 
   classroomGroups.forEach((group) => {
