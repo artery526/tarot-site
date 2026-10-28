@@ -665,6 +665,7 @@ if (classroomGroupsElement) {
     29: "https://vt.tiktok.com/ZSgVjwJew/",
     30: "https://vt.tiktok.com/ZSgbvTs1E/",
     31: "https://vt.tiktok.com/ZSgbvG1pu/",
+    32: "https://vt.tiktok.com/ZSgb3MAPp/",
   };
 
   classroomGroups.forEach((group) => {
