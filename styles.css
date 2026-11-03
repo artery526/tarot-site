@@ -44,7 +44,7 @@ h1 .emily-script { color: #795548; font-size: 1.06em; }
 .hero-secondary-item { min-width: 0; display: grid; align-content: start; justify-items: start; gap: 6px; }
 .hero-secondary-item .button { width: 100%; min-width: 0; justify-content: center; gap: 6px; padding-inline: 10px; font-size: .82rem; text-align: center; }
 .button-note { margin: 0; color: var(--color-muted); font-size: .78rem; line-height: 1.5; }
-.numerology-note { color: #a77f68; }
+.weekly-reading-note { color: #a77f68; }
 .button.numerology-jump-button { min-height: 46px; border: 1px solid rgb(197 142 109 / 42%); background: #fffdf8; color: #9b6d52; box-shadow: none; }
 .button.numerology-jump-button:hover { background: #fff1dc; box-shadow: 0 7px 16px rgb(121 85 72 / 9%); }
 .button.chakra-jump-button { min-height: 46px; border: 1px solid rgb(192 147 173 / 38%); background: #fffdfb; color: #795f77; box-shadow: none; }
