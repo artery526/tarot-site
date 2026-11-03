@@ -419,3 +419,94 @@ h3 { margin: 0; font-size: 1.12rem; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .numerology-personal-result, .numerology-browse-result { animation: none; }
 }
+
+/* Seven chakra classroom */
+.chakra-classroom { padding-block: 68px 74px; border-block: 1px solid rgb(192 147 173 / 20%); background: linear-gradient(180deg, #fcf7fb, #fff8eb 92%); }
+.chakra-inner { max-width: 1060px; }
+.chakra-heading { max-width: 800px; margin: 0 auto 25px; text-align: center; }
+.chakra-heading h2 { color: #765a70; }
+.chakra-heading > p:last-child { max-width: 740px; margin: 12px auto 0; color: #796b76; line-height: 1.85; }
+.chakra-english { margin: 7px 0 0; color: #a17d9b; font-family: Georgia, serif; font-size: .94rem; letter-spacing: .06em; }
+.chakra-knowledge { max-width: 850px; margin: 0 auto 30px; padding: 14px 18px; border: 1px solid rgb(192 147 173 / 22%); border-radius: 15px; background: rgb(255 253 251 / 76%); color: #806f7b; font-size: .84rem; line-height: 1.8; }
+.chakra-explorer { --chakra-color: #43A47A; display: grid; grid-template-columns: minmax(230px, .78fr) minmax(0, 1.22fr); align-items: center; gap: clamp(22px, 5vw, 58px); }
+.chakra-visual-column { min-width: 0; display: grid; justify-items: center; gap: 20px; }
+.chakra-figure-wrap { position: relative; width: min(100%, 270px); aspect-ratio: 200 / 420; margin-inline: auto; }
+.chakra-figure { display: block; width: 100%; height: 100%; overflow: visible; }
+.chakra-points { position: absolute; inset: 0; }
+.chakra-point { position: absolute; top: var(--point-y); left: 50%; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; transform: translate(-50%, -50%); cursor: pointer; }
+.chakra-point span { width: 17px; height: 17px; border: 2px solid #fffdfb; border-radius: 50%; background: var(--point-color); box-shadow: 0 0 0 1px rgb(81 67 79 / 24%), 0 2px 8px rgb(68 48 63 / 24%); transition: transform .18s ease, box-shadow .18s ease; }
+.chakra-point[data-chakra-id="root"] { --point-color: #D94B50; }
+.chakra-point[data-chakra-id="sacral"] { --point-color: #E98A38; }
+.chakra-point[data-chakra-id="solar-plexus"] { --point-color: #D6AE32; }
+.chakra-point[data-chakra-id="heart"] { --point-color: #43A47A; }
+.chakra-point[data-chakra-id="throat"] { --point-color: #438FCB; }
+.chakra-point[data-chakra-id="third-eye"] { --point-color: #7770C7; }
+.chakra-point[data-chakra-id="crown"] { --point-color: #A378C6; }
+.chakra-point[aria-pressed="true"] span { transform: scale(1.17); box-shadow: 0 0 0 2px #fffdfb, 0 0 0 5px color-mix(in srgb, var(--point-color), transparent 72%), 0 0 20px 7px color-mix(in srgb, var(--point-color), transparent 52%); animation: chakra-breathe 2.8s ease-in-out infinite; }
+.chakra-point:focus-visible, .chakra-tab:focus-visible, .chakra-step:focus-visible, .chakra-copy:focus-visible { outline: 3px solid #8466a0; outline-offset: 3px; }
+.chakra-selector { width: min(100%, 375px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.chakra-tab { min-height: 44px; min-width: 0; padding: 7px 9px; display: inline-flex; align-items: center; justify-content: flex-start; gap: 8px; border: 1px solid rgb(192 147 173 / 25%); border-radius: 13px; background: rgb(255 253 251 / 82%); color: #796b76; font: inherit; font-size: .8rem; cursor: pointer; transition: background .18s ease, border-color .18s ease; }
+.chakra-tab i { width: 10px; height: 10px; flex: 0 0 auto; border-radius: 50%; background: var(--tab-color); }
+.chakra-tab:nth-child(1) { --tab-color: #D94B50; }.chakra-tab:nth-child(2) { --tab-color: #E98A38; }.chakra-tab:nth-child(3) { --tab-color: #D6AE32; }.chakra-tab:nth-child(4) { --tab-color: #43A47A; }.chakra-tab:nth-child(5) { --tab-color: #438FCB; }.chakra-tab:nth-child(6) { --tab-color: #7770C7; }.chakra-tab:nth-child(7) { --tab-color: #A378C6; }
+.chakra-tab[aria-pressed="true"] { border-color: color-mix(in srgb, var(--tab-color), white 38%); background: color-mix(in srgb, var(--tab-color), white 91%); color: #594858; font-weight: 800; }
+.chakra-card { --chakra-color: #43A47A; min-width: 0; padding: clamp(20px, 3.6vw, 34px); border: 1px solid color-mix(in srgb, var(--chakra-color), white 76%); border-radius: 25px; background: rgb(255 253 251 / 92%); box-shadow: 0 15px 40px rgb(121 85 100 / 9%); }
+.chakra-card-topline { display: flex; align-items: center; justify-content: space-between; }
+.chakra-order { color: #a58a9e; font-size: .75rem; font-weight: 800; letter-spacing: .12em; }
+.chakra-swatch { width: 25px; height: 25px; border: 3px solid #fff; border-radius: 50%; background: var(--chakra-color); box-shadow: 0 0 0 1px color-mix(in srgb, var(--chakra-color), white 48%), 0 0 15px color-mix(in srgb, var(--chakra-color), transparent 62%); }
+.chakra-sanskrit { margin: 13px 0 3px; color: color-mix(in srgb, var(--chakra-color), #544252 15%); font-family: Georgia, serif; font-size: .77rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.chakra-card h3 { color: #684f65; font-size: clamp(1.45rem, 3vw, 1.8rem); }
+.chakra-name-en { margin: 3px 0 17px; color: #9a8194; font-family: Georgia, serif; font-size: .93rem; }
+.chakra-meta { margin: 0 0 15px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.chakra-meta > div { min-width: 0; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--chakra-color), white 93%); }
+.chakra-meta dt, .chakra-prompt-block h4 { color: #947a8e; font-size: .75rem; font-weight: 800; }
+.chakra-meta dd { margin: 4px 0 0; color: #655866; font-size: .84rem; font-weight: 700; line-height: 1.55; }
+.chakra-description, .chakra-prompt-block p { margin: 0; color: #766a73; font-size: .86rem; line-height: 1.8; }
+.chakra-description { margin-bottom: 14px; }
+.chakra-prompt-block { margin-top: 11px; padding-top: 11px; border-top: 1px solid rgb(192 147 173 / 18%); }
+.chakra-prompt-block h4 { margin: 0 0 4px; }
+.chakra-affirmation { margin: 14px 0 0; padding: 13px 15px; border-left: 3px solid var(--chakra-color); border-radius: 0 13px 13px 0; background: color-mix(in srgb, var(--chakra-color), white 93%); }
+.chakra-affirmation span { color: #93778c; font-size: .73rem; font-weight: 800; }
+.chakra-affirmation p { margin: 4px 0 0; color: #695569; font-size: .9rem; font-weight: 700; line-height: 1.7; }
+.chakra-card-actions { margin-top: 17px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; }
+.chakra-card-actions .button { min-height: 44px; padding-inline: 13px; gap: 5px; font-size: .78rem; }
+.chakra-card-actions .chakra-copy { background: #c58eaa; box-shadow: 0 7px 16px rgb(197 142 170 / 18%); }
+.chakra-card-actions .chakra-copy:hover { background: #b57998; }
+.chakra-card-actions .chakra-step { border: 1px solid rgb(192 147 173 / 34%); background: #fffdfb; color: #795f77; box-shadow: none; }
+.chakra-feedback { min-height: 1.5em; margin: 8px 0 0; color: #66856b; font-size: .8rem; line-height: 1.55; text-align: center; }
+.chakra-feedback.is-error { color: #a44850; }
+.chakra-fallback-label { display: block; margin-top: 8px; color: #806f7b; font-size: .8rem; }
+.chakra-fallback-label[hidden], .chakra-copy-fallback[hidden] { display: none; }
+.chakra-copy-fallback { width: 100%; min-height: 125px; margin-top: 6px; padding: 10px; border: 1px solid rgb(192 147 173 / 38%); border-radius: 11px; background: #fff; color: #655866; font: inherit; font-size: .8rem; line-height: 1.6; }
+.chakra-disclaimer { max-width: 780px; margin: 23px auto 0; color: #8b7785; font-size: .78rem; line-height: 1.75; text-align: center; }
+.chakra-related { margin-top: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.chakra-related .button { min-height: 44px; padding-inline: 18px; border: 1px solid rgb(192 147 173 / 33%); background: #fffdfb; color: #795f77; font-size: .84rem; box-shadow: none; }
+.chakra-related .button:hover { background: #f8edf4; }
+@keyframes chakra-breathe { 0%, 100% { filter: saturate(.94); } 50% { filter: saturate(1.18); } }
+
+@media (max-width: 760px) {
+  .chakra-classroom { padding-block: 53px 59px; }
+  .chakra-explorer { max-width: 570px; margin-inline: auto; grid-template-columns: 1fr; gap: 23px; }
+  .chakra-visual-column { gap: 13px; }
+  .chakra-figure-wrap { width: min(62vw, 245px); }
+  .chakra-selector { width: min(100%, 480px); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .chakra-tab { justify-content: center; padding-inline: 6px; font-size: .76rem; }
+}
+@media (max-width: 480px) {
+  .chakra-heading { margin-bottom: 21px; }
+  .chakra-heading > p:last-child { font-size: .89rem; }
+  .chakra-knowledge { margin-bottom: 23px; padding: 12px 13px; font-size: .8rem; }
+  .chakra-explorer { gap: 19px; }
+  .chakra-figure-wrap { width: min(68vw, 220px); }
+  .chakra-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chakra-tab { min-height: 46px; justify-content: flex-start; padding-inline: 10px; }
+  .chakra-tab:last-child { grid-column: span 2; }
+  .chakra-card { padding: 19px 16px; border-radius: 21px; }
+  .chakra-card-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chakra-card-actions .chakra-copy { grid-column: 1 / -1; grid-row: 1; }
+  .chakra-card-actions .chakra-step { grid-row: 2; }
+  .chakra-card-actions .button { font-size: .82rem; }
+  .chakra-related { display: grid; grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chakra-point[aria-pressed="true"] span { animation: none; }
+}

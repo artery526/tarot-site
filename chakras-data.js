@@ -1,0 +1,51 @@
+window.EmilyChakras = [
+  {
+    id: "root", order: 1, nameZh: "海底輪", nameEn: "Root Chakra", sanskrit: "Muladhara", color: "#D94B50", location: "脊椎底部", theme: "安全感、穩定、歸屬",
+    description: "海底輪象徵生活的根基，提醒我們關注安全感、歸屬感，以及面對現實生活的穩定力量。",
+    reflectionQuestion: "最近有什麼事情讓我感到不安？我可以如何照顧自己？",
+    dailyPractice: "散步十分鐘，感受雙腳踩在地面上的踏實感。",
+    affirmation: "我值得擁有安全、穩定而安心的生活。",
+  },
+  {
+    id: "sacral", order: 2, nameZh: "臍輪", nameEn: "Sacral Chakra", sanskrit: "Svadhisthana", color: "#E98A38", location: "下腹部", theme: "情緒、愉悅、創造力",
+    description: "臍輪象徵情緒、愉悅與創造力，提醒我們允許自己感受生活，而不只是完成責任。",
+    reflectionQuestion: "我是否已經很久沒有為自己的快樂留一些時間？",
+    dailyPractice: "安排十五分鐘做一件喜歡的創作，不需要追求完美。",
+    affirmation: "我允許自己感受快樂，自由地表達內心。",
+  },
+  {
+    id: "solar-plexus", order: 3, nameZh: "太陽神經叢輪", nameEn: "Solar Plexus Chakra", sanskrit: "Manipura", color: "#D6AE32", location: "上腹部", theme: "自信、意志、行動力",
+    description: "太陽神經叢輪象徵個人意志、自信與自主選擇，提醒我們看見自己的能力與價值。",
+    reflectionQuestion: "我是否經常因為別人的眼光而懷疑自己的選擇？",
+    dailyPractice: "完成一個小目標，寫下今天值得肯定自己的地方。",
+    affirmation: "我相信自己，也有權利選擇適合我的道路。",
+  },
+  {
+    id: "heart", order: 4, nameZh: "心輪", nameEn: "Heart Chakra", sanskrit: "Anahata", color: "#43A47A", location: "胸口中央", theme: "愛、同理、接納",
+    description: "心輪象徵愛、同理心與接納，也提醒我們在關心他人的同時，不要忘記善待自己。",
+    reflectionQuestion: "我是否總是努力照顧別人，卻忽略了自己的感受？",
+    dailyPractice: "寫下三件今天想感謝自己的事情。",
+    affirmation: "我值得被愛，也值得被自己溫柔對待。",
+  },
+  {
+    id: "throat", order: 5, nameZh: "喉輪", nameEn: "Throat Chakra", sanskrit: "Vishuddha", color: "#438FCB", location: "喉嚨", theme: "溝通、真實、表達",
+    description: "喉輪象徵真實表達與溝通，鼓勵我們理解自己的需求，並以尊重的方式傳達心聲。",
+    reflectionQuestion: "有什麼話是我一直想說，卻沒有勇氣表達的？",
+    dailyPractice: "用「我感覺……因為……」寫下一段心裡話。",
+    affirmation: "我的聲音值得被聽見，我可以真誠表達自己。",
+  },
+  {
+    id: "third-eye", order: 6, nameZh: "眉心輪", nameEn: "Third Eye Chakra", sanskrit: "Ajna", color: "#7770C7", location: "兩眉之間", theme: "直覺、洞察、自我反思",
+    description: "眉心輪象徵洞察、直覺與自我反思，提醒我們在資訊與外界意見中保留自己的判斷。",
+    reflectionQuestion: "如果暫時放下別人的期待，我真正想要的是什麼？",
+    dailyPractice: "安靜五分鐘，觀察念頭，再記錄一個重要發現。",
+    affirmation: "我願意聆聽內心，也相信自己能逐漸看清方向。",
+  },
+  {
+    id: "crown", order: 7, nameZh: "頂輪", nameEn: "Crown Chakra", sanskrit: "Sahasrara", color: "#A378C6", location: "頭頂", theme: "覺察、精神連結、生命意義",
+    description: "頂輪象徵精神層面的探索、生命意義與連結，鼓勵我們思考真正重視的價值。",
+    reflectionQuestion: "什麼事情讓我感覺生命充實而有意義？",
+    dailyPractice: "寫下三件對自己重要的事，並安排時間親近自然。",
+    affirmation: "我以自己的步調，探索生命的意義與美好。",
+  },
+];
