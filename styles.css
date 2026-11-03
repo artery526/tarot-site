@@ -47,6 +47,8 @@ h1 .emily-script { color: #795548; font-size: 1.06em; }
 .numerology-note { color: #a77f68; }
 .button.numerology-jump-button { min-height: 46px; border: 1px solid rgb(197 142 109 / 42%); background: #fffdf8; color: #9b6d52; box-shadow: none; }
 .button.numerology-jump-button:hover { background: #fff1dc; box-shadow: 0 7px 16px rgb(121 85 72 / 9%); }
+.button.chakra-jump-button { min-height: 46px; border: 1px solid rgb(192 147 173 / 38%); background: #fffdfb; color: #795f77; box-shadow: none; }
+.button.chakra-jump-button:hover { background: #f8edf4; box-shadow: 0 7px 16px rgb(121 85 100 / 9%); }
 .eyebrow { margin: 0 0 18px; color: #b88161; font-size: .8rem; font-weight: 800; letter-spacing: .15em; }
 .eyebrow span { color: var(--color-primary); }
 h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.28; letter-spacing: .04em; }
