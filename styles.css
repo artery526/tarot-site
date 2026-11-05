@@ -72,7 +72,10 @@ h1 span { color: var(--color-primary); }
 .weekly-reading-section { border-block: 1px solid rgb(209 157 116 / 18%); background: linear-gradient(180deg, #fff8eb, #fff3df); }
 .weekly-reading-inner { padding-block: 66px 72px; }
 .weekly-reading-heading { margin-bottom: 29px; }
-.weekly-bulletin { max-width: 800px; margin-inline: auto; padding: clamp(20px, 4vw, 34px); border: 1px solid #d8b77e; border-radius: 22px; background: linear-gradient(145deg, #fffdf7, #fff8e9); box-shadow: 0 14px 38px rgb(121 85 72 / 9%), inset 0 0 0 5px rgb(255 241 220 / 62%); }
+.weekly-reading-layout { width: min(100%, 1080px); margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 220px); align-items: center; gap: clamp(20px, 4vw, 40px); }
+.weekly-bulletin { min-width: 0; margin: 0; padding: clamp(20px, 4vw, 34px); border: 1px solid #d8b77e; border-radius: 22px; background: linear-gradient(145deg, #fffdf7, #fff8e9); box-shadow: 0 14px 38px rgb(121 85 72 / 9%), inset 0 0 0 5px rgb(255 241 220 / 62%); }
+.weekly-reading-mascot { width: 100%; margin: 0; overflow: hidden; border: 1px solid rgb(209 157 116 / 28%); border-radius: 26px; background: #fff4f1; box-shadow: var(--shadow); transform: rotate(2deg); }
+.weekly-reading-mascot img { display: block; width: 100%; height: auto; }
 .weekly-bulletin-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding-bottom: 18px; border-bottom: 1px dashed rgb(169 125 83 / 30%); }
 .weekly-bulletin-kicker { margin: 0 0 7px; color: #b88161; font-size: .75rem; font-weight: 800; letter-spacing: .13em; }
 .weekly-bulletin-header h3 { font-size: clamp(1.05rem, 3vw, 1.25rem); line-height: 1.5; }
@@ -335,6 +338,11 @@ h3 { margin: 0; font-size: 1.12rem; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; }
 .footer-brand { font-size: .91rem; }.footer-brand .brand-mark { width: 28px; height: 28px; background: rgb(255 255 255 / 50%); }
 .footer-links { display: flex; gap: 22px; }.footer-links a, .footer-inner > p { color: #886853; font-size: .8rem; }.footer-inner > p { margin: 0; }
+
+@media (max-width: 900px) {
+  .weekly-reading-layout { max-width: 800px; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .weekly-reading-mascot { width: min(42vw, 170px); justify-self: center; }
+}
 
 @media (max-width: 700px) {
   .container { width: min(100% - 36px, 520px); }
