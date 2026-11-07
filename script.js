@@ -734,6 +734,18 @@ if (classroomGroupsElement) {
   });
 }
 
+const weeklyChoiceCards = [...document.querySelectorAll(".weekly-choice-card")];
+weeklyChoiceCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    weeklyChoiceCards.forEach((choice) => {
+      choice.setAttribute("aria-pressed", String(choice === card));
+      choice.classList.remove("is-glowing");
+    });
+    void card.offsetWidth;
+    card.classList.add("is-glowing");
+  });
+});
+
 const inquiryDialog = document.querySelector("#inquiry-dialog");
 const orderLookupDialog = document.querySelector("#order-lookup-dialog");
 const orderLookupForm = document.querySelector("#order-lookup-form");
