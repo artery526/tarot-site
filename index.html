@@ -10,10 +10,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://emilytarot.pages.dev/" />
     <title>Emily塔羅小屋｜塔羅、生命靈數與七大脈輪</title>
-    <link rel="stylesheet" href="./styles.css?v=20261107-weekly-reading-open-1" />
+    <link rel="stylesheet" href="./styles.css?v=20261107-weekly-reveal-1" />
     <script src="./numerology-core.js?v=20261026-numerology-1" defer></script>
     <script src="./chakras-data.js?v=20261103-chakras-1" defer></script>
-    <script src="./script.js?v=20261107-weekly-reading-open-1" defer></script>
+    <script src="./script.js?v=20261107-weekly-reveal-1" defer></script>
     <script src="./chakras.js?v=20261103-chakras-1" defer></script>
   </head>
   <body>
@@ -153,22 +153,28 @@
                 </div>
                 <span class="weekly-bulletin-status">11/08～11/14</span>
               </header>
-              <p class="weekly-bulletin-note">先靜下心，憑直覺選擇 A、B 或 C，看看牌卡為你帶來的提醒。</p>
+              <p class="weekly-bulletin-note">先靜下心，憑直覺選擇 A、B 或 C。牌卡將於 11/08（日）上午 8 點揭曉。</p>
               <div class="weekly-choice-grid" role="group" aria-label="選擇本週大眾占卜牌卡">
-                <button class="weekly-choice-card" type="button" aria-label="選擇 A 牌" aria-pressed="false">
+                <button class="weekly-choice-card" type="button" data-choice="A" data-result="惡魔" data-video-url="" aria-label="選擇 A 牌" aria-pressed="false">
                   <span class="weekly-card-back"><img src="./assets/tarot-cards/card-back.svg" alt="" loading="lazy" /></span>
+                  <span class="weekly-card-face" hidden><img src="./assets/tarot-cards/15-惡魔.webp" alt="惡魔牌" loading="lazy" /></span>
                   <span class="weekly-choice-letter">A</span>
+                  <span class="weekly-choice-result" hidden></span>
                 </button>
-                <button class="weekly-choice-card" type="button" aria-label="選擇 B 牌" aria-pressed="false">
+                <button class="weekly-choice-card" type="button" data-choice="B" data-result="權杖五" data-video-url="" aria-label="選擇 B 牌" aria-pressed="false">
                   <span class="weekly-card-back"><img src="./assets/tarot-cards/card-back.svg" alt="" loading="lazy" /></span>
+                  <span class="weekly-card-face" hidden><img src="./assets/tarot-cards/26-權杖五.webp" alt="權杖五牌" loading="lazy" /></span>
                   <span class="weekly-choice-letter">B</span>
+                  <span class="weekly-choice-result" hidden></span>
                 </button>
-                <button class="weekly-choice-card" type="button" aria-label="選擇 C 牌" aria-pressed="false">
+                <button class="weekly-choice-card" type="button" data-choice="C" data-result="皇帝" data-video-url="" aria-label="選擇 C 牌" aria-pressed="false">
                   <span class="weekly-card-back"><img src="./assets/tarot-cards/card-back.svg" alt="" loading="lazy" /></span>
+                  <span class="weekly-card-face" hidden><img src="./assets/tarot-cards/04-皇帝.webp" alt="皇帝牌" loading="lazy" /></span>
                   <span class="weekly-choice-letter">C</span>
+                  <span class="weekly-choice-result" hidden></span>
                 </button>
               </div>
-              <p class="weekly-reveal-note">每週日揭曉答案，請準時收看</p>
+              <p class="weekly-reveal-note" id="weekly-reveal-note" aria-live="polite">每週日揭曉答案，請準時收看</p>
             </div>
           </div>
         </div>

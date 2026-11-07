@@ -92,7 +92,14 @@ h1 span { color: var(--color-primary); }
 @keyframes weekly-card-glow { 0% { opacity: 0; transform: scale(.88); } 35% { opacity: 1; transform: scale(1.06); } 100% { opacity: .55; transform: scale(1); } }
 .weekly-card-back { width: min(100%, 112px); margin-inline: auto; overflow: hidden; border-radius: 8px; box-shadow: 0 7px 16px rgb(121 85 72 / 12%); }
 .weekly-card-back img { display: block; width: 100%; height: auto; }
+.weekly-card-face { display: block; width: min(100%, 112px); margin-inline: auto; overflow: hidden; border-radius: 8px; box-shadow: 0 7px 16px rgb(121 85 72 / 16%); }
+.weekly-card-face[hidden] { display: none; }
+.weekly-card-face img { display: block; width: 100%; height: auto; }
+.weekly-choice-card.is-revealed .weekly-card-face { animation: weekly-card-reveal .7s cubic-bezier(.2,.75,.25,1) both; }
+@keyframes weekly-card-reveal { from { opacity: .45; transform: perspective(700px) rotateY(-78deg) scale(.96); } to { opacity: 1; transform: perspective(700px) rotateY(0) scale(1); } }
 .weekly-choice-letter { display: block; margin-top: 11px; color: #86644e; font-size: 1rem; font-weight: 700; }
+.weekly-choice-result { display: block; margin-top: 3px; color: #ad6952; font-size: .8rem; font-weight: 700; }
+.weekly-choice-result[hidden] { display: none; }
 .weekly-reveal-note { margin: 20px 0 0; color: #9a765e; font-size: .82rem; text-align: center; letter-spacing: .04em; }
 .draw-inner { padding-block: 66px 72px; text-align: center; }
 .draw-heading { margin-bottom: 22px; }
@@ -392,6 +399,7 @@ h3 { margin: 0; font-size: 1.12rem; }
   .weekly-choice-grid { gap: 8px; }
   .weekly-choice-card { padding: 9px 6px; border-radius: 13px; }
   .weekly-card-back { width: min(100%, 92px); }
+  .weekly-card-face { width: min(100%, 92px); }
   .weekly-choice-letter { margin-top: 9px; font-size: .92rem; }
   .draw-result { max-width: 390px; margin-top: 28px; padding: 20px; grid-template-columns: 1fr; gap: 24px; text-align: center; }
   .draw-card-wrap { width: min(58%, 220px); }
@@ -423,6 +431,7 @@ h3 { margin: 0; font-size: 1.12rem; }
 @media (prefers-reduced-motion: reduce) {
   .weekly-choice-card { transition: none; }
   .weekly-choice-card.is-glowing::before { animation: none; opacity: .65; }
+  .weekly-choice-card.is-revealed .weekly-card-face { animation: none; }
 }
 
 @media (max-width: 360px) {

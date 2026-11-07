@@ -735,8 +735,33 @@ if (classroomGroupsElement) {
 }
 
 const weeklyChoiceCards = [...document.querySelectorAll(".weekly-choice-card")];
+const weeklyRevealNote = document.querySelector("#weekly-reveal-note");
+const weeklyRevealAt = Date.parse("2026-11-08T08:00:00+08:00");
+
+function revealWeeklyReading() {
+  if (Date.now() < weeklyRevealAt) return false;
+
+  weeklyChoiceCards.forEach((card) => {
+    const back = card.querySelector(".weekly-card-back");
+    const face = card.querySelector(".weekly-card-face");
+    const result = card.querySelector(".weekly-choice-result");
+    back.hidden = true;
+    face.hidden = false;
+    result.textContent = card.dataset.result;
+    result.hidden = false;
+    card.classList.add("is-revealed");
+    card.setAttribute("aria-label", `${card.dataset.choice} 牌：${card.dataset.result}`);
+  });
+
+  if (weeklyRevealNote) weeklyRevealNote.textContent = "本週答案已揭曉，Emily 的抖音講解連結將於稍後補上。";
+  return true;
+}
+
 weeklyChoiceCards.forEach((card) => {
   card.addEventListener("click", () => {
+    if (card.classList.contains("is-revealed") && card.dataset.videoUrl) {
+      window.open(card.dataset.videoUrl, "_blank", "noopener,noreferrer");
+    }
     weeklyChoiceCards.forEach((choice) => {
       choice.setAttribute("aria-pressed", String(choice === card));
       choice.classList.remove("is-glowing");
@@ -745,6 +770,10 @@ weeklyChoiceCards.forEach((card) => {
     card.classList.add("is-glowing");
   });
 });
+
+if (!revealWeeklyReading()) {
+  window.setTimeout(revealWeeklyReading, Math.min(weeklyRevealAt - Date.now(), 2_147_000_000));
+}
 
 const inquiryDialog = document.querySelector("#inquiry-dialog");
 const orderLookupDialog = document.querySelector("#order-lookup-dialog");
