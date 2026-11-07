@@ -735,7 +735,7 @@ if (classroomGroupsElement) {
 }
 
 const weeklyChoiceCards = [...document.querySelectorAll(".weekly-choice-card")];
-const weeklyRevealNote = document.querySelector("#weekly-reveal-note");
+const weeklyBulletinTitle = document.querySelector("#weekly-bulletin-title");
 const weeklyRevealAt = Date.parse("2026-11-08T08:00:00+08:00");
 
 function revealWeeklyReading() {
@@ -753,7 +753,7 @@ function revealWeeklyReading() {
     card.setAttribute("aria-label", `${card.dataset.choice} 牌：${card.dataset.result}`);
   });
 
-  if (weeklyRevealNote) weeklyRevealNote.textContent = "本週答案已揭曉，Emily 的抖音講解連結將於稍後補上。";
+  if (weeklyBulletinTitle) weeklyBulletinTitle.textContent = "本週答案已揭曉，Emily 的抖音講解連結將於稍後補上。";
   return true;
 }
 
