@@ -550,6 +550,11 @@ h1, h2, h3, h4, h5, h6, .brand { color: #f8efdf; }
 .draw-experience .draw-result { background: #30243a; color: #f5ecdd; }
 .draw-experience { background: radial-gradient(ellipse at 50% 48%, rgb(117 82 137 / 25%), transparent 58%), radial-gradient(ellipse at 15% 12%, rgb(218 183 111 / 12%), transparent 42%), #191321; }
 .draw-experience::backdrop { background: #191321; }
+.plan-card.featured { background: linear-gradient(145deg, #3a2a48, #2b2037); border-color: rgb(218 183 111 / 42%); }
+.plan-card h3 { color: #f8efdf; }
+.plan-card .plan-description { color: #d2c4d3; }
+.plan-card .plan-kicker, .plan-card .plan-eligibility { color: #e4c17a; }
+.plan-card .plan-bottom { border-color: rgb(225 199 151 / 24%); }
 .numerology-teaser { background: radial-gradient(circle at 8% 8%, rgb(191 132 160 / 15%), transparent 25%), radial-gradient(circle at 94% 12%, rgb(142 125 193 / 16%), transparent 24%), linear-gradient(145deg, #342640, #2a2036 60%, #30243a); border-color: rgb(218 183 111 / 36%); }
 .classroom-card { background: #3b2d48; color: #f5ecdd; border-color: rgb(218 183 111 / 28%); }
 a.classroom-card:hover { background: #51405c; border-color: #d8b66b; }
@@ -648,3 +653,20 @@ a.classroom-card:hover { background: #51405c; border-color: #d8b66b; }
 @media (prefers-reduced-motion: reduce) {
   .chakra-point[aria-pressed="true"] span { animation: none; }
 }
+
+/* Keep the shared theme overrides after the chakra component styles. */
+.chakra-classroom { background: linear-gradient(180deg, #21182d, #191321 94%); border-color: rgb(218 183 111 / 22%); }
+.chakra-heading h2, .chakra-card h3 { color: #f8efdf; }
+.chakra-heading > p:last-child, .chakra-description, .chakra-prompt-block p,
+.chakra-meta dd, .chakra-affirmation p { color: #eee2d5; }
+.chakra-english, .chakra-order, .chakra-meta dt, .chakra-prompt-block h4,
+.chakra-fallback-label, .chakra-disclaimer { color: #e4c17a; }
+.chakra-knowledge, .chakra-card, .chakra-tab, .chakra-copy-fallback,
+.chakra-related .button, .chakra-card-actions .chakra-step {
+  background: #342640;
+  color: #f5ecdd;
+  border-color: rgb(218 183 111 / 36%);
+}
+.chakra-meta > div, .chakra-affirmation { background: #3b2c48; }
+.chakra-copy-fallback { color: #f5ecdd; }
+.chakra-tab[aria-pressed="true"], .chakra-related .button:hover { background: #51405c; color: #fff4d8; }
