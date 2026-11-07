@@ -100,7 +100,7 @@ h1 span { color: var(--color-primary); }
 .weekly-choice-letter { display: block; margin-top: 11px; color: #86644e; font-size: 1rem; font-weight: 700; }
 .weekly-choice-result { display: block; margin-top: 3px; color: #ad6952; font-size: .8rem; font-weight: 700; }
 .weekly-choice-result[hidden] { display: none; }
-.weekly-reveal-note { margin: 20px 0 0; color: #9a765e; font-size: .82rem; text-align: center; letter-spacing: .04em; }
+.weekly-reveal-note { margin: 20px 0 0; color: #9a765e; font-size: clamp(1.05rem, 3vw, 1.25rem); font-weight: 700; line-height: 1.5; text-align: center; }
 .draw-inner { padding-block: 66px 72px; text-align: center; }
 .draw-heading { margin-bottom: 22px; }
 .draw-heading > p:last-child { max-width: 590px; margin-inline: auto; line-height: 1.8; }
