@@ -457,6 +457,107 @@ h3 { margin: 0; font-size: 1.12rem; }
   .numerology-personal-result, .numerology-browse-result { animation: none; }
 }
 
+/* Purple and gold site theme */
+:root {
+  color-scheme: dark;
+  --color-background: #191321;
+  --color-sunshine: #d8b66b;
+  --color-peach: #c88d9d;
+  --color-primary: #c89b53;
+  --color-text: #f5ecdd;
+  --color-muted: #c5b6ca;
+  --color-white: #30243a;
+  --color-soft: #3a2b46;
+  --shadow: 0 18px 50px rgb(5 3 10 / 32%);
+  background: var(--color-background);
+}
+body { background: #191321; color: #f5ecdd; }
+h1, h2, h3, h4, h5, h6, .brand { color: #f8efdf; }
+.site-header { background: rgb(28 21 38 / 95%); border-color: rgb(226 193 125 / 19%); }
+.emily-script, h1 .emily-script { color: #e5c27c; text-shadow: none; }
+.brand-mark { background: #493753; color: #f0d28d; }
+.hero, .draw-inner, .section-inner, .classroom-section .section-inner, .weekly-reading-inner { color: #f5ecdd; }
+.free-draw, .weekly-reading-section, .services, .classroom-section, .chakra-classroom, .numerology-section, .privacy-policy[open] {
+  background: linear-gradient(180deg, #21182d, #191321 94%);
+  border-color: rgb(218 183 111 / 22%);
+}
+.hero-art { background: radial-gradient(ellipse at 50% 45%, #46334f 0 35%, #352642 36% 70%, #493753 71%); }
+.hero-art .card-title, .hero-art .art-caption, .hero-art .sparkle, .hero-art .moon { color: #e7c47a; }
+.weekly-bulletin, .draw-result, .plan-card, .classroom-group, .numerology-shell,
+.numerology-profile-card, .chakra-card, .cat-dialog, .ritual-dialog, .inquiry-dialog {
+  background: linear-gradient(145deg, #342640, #2a2036);
+  color: #f5ecdd;
+  border-color: rgb(218 183 111 / 36%);
+  box-shadow: 0 14px 38px rgb(5 3 10 / 28%);
+}
+.weekly-reading-mascot { background: #35263e; border-color: rgb(218 183 111 / 28%); }
+.weekly-bulletin-kicker, .eyebrow, .weekly-choice-result, .weekly-bulletin-note,
+.weekly-reveal-note, .button-note, .hero-lead, .section-heading > p:last-child,
+.classroom-count, .plan-description, .plan-bottom small, .numerology-date-help,
+.numerology-keywords, .chakra-description, .chakra-prompt-block p, .chakra-name-en,
+.chakra-disclaimer, .privacy-copy p, .privacy-copy li, .footer-links a, .footer-inner > p {
+  color: #d2c4d3;
+}
+.weekly-bulletin-header, .plan-bottom, .numerology-classroom { border-color: rgb(225 199 151 / 24%); }
+.weekly-bulletin-status, .coming-soon { background: #493242; color: #f0c2aa; border-color: rgb(240 194 170 / 30%); }
+.weekly-choice-card, .classroom-card, .numerology-number-button, .chakra-tab,
+.button.numerology-jump-button, .button.chakra-jump-button, .button.numerology-reset-button,
+.chakra-card-actions .chakra-step, .chakra-related .button {
+  background: #3b2d48;
+  color: #f5ecdd;
+  border-color: rgb(218 183 111 / 35%);
+}
+.weekly-choice-card:hover, .weekly-choice-card:focus-visible, .weekly-choice-card[aria-pressed="true"],
+.numerology-number-button:hover, .numerology-number-button[aria-pressed="true"],
+.chakra-tab[aria-pressed="true"], .button.numerology-jump-button:hover,
+.button.chakra-jump-button:hover, .chakra-related .button:hover { background: #51405c; color: #fff4d8; }
+.weekly-choice-letter, .weekly-bulletin-kicker, .weekly-reading-note, .weekly-reveal-note,
+.classroom-group summary::after, .plan-kicker, .plan-eligibility, .privacy-trigger,
+.privacy-copy a, .numerology-profile-number, .numerology-trait h6, .numerology-mantra h6,
+.chakra-heading h2, .chakra-english, .chakra-order, .chakra-meta dt, .chakra-prompt-block h4 {
+  color: #e4c17a;
+}
+.button { background: linear-gradient(110deg, #d4ad63, #a97c43); color: #21182a; box-shadow: 0 9px 22px rgb(191 148 78 / 22%); }
+.button:hover { background: linear-gradient(110deg, #e1c47e, #bd9254); }
+.button.numerology-copy-button, .chakra-card-actions .chakra-copy { background: linear-gradient(110deg, #b58abb, #8c6aa5); color: #fff8ed; }
+.button.numerology-submit { background: linear-gradient(110deg, #d4ad63, #a97c43); }
+.numerology-profile-card, .chakra-card { background: #30243a; }
+.numerology-math, .numerology-trait, .numerology-mantra, .numerology-knowledge,
+.chakra-knowledge, .chakra-meta > div, .chakra-affirmation, .ritual-steps li {
+  background: #3b2c48;
+  color: #f1e7d9;
+  border-color: rgb(218 183 111 / 24%);
+}
+.numerology-math, .numerology-trait p, .numerology-mantra p, .numerology-knowledge-copy,
+.chakra-meta dd, .chakra-affirmation p, .chakra-knowledge, .cat-dialog p { color: #eee2d5; }
+.numerology-mascot { background: linear-gradient(145deg, #58404e, #413352 58%, #33304e); }
+.numerology-disclaimer, .chakra-fallback-label, .chakra-feedback, .inquiry-field-hint { color: #c8bbcf; }
+.numerology-feedback, .numerology-copy-feedback { color: #a8d3ae; }
+.numerology-feedback.is-error, .numerology-copy-feedback.is-error, .inquiry-feedback { color: #f0a5a0; }
+.numerology-form input[type="date"], .inquiry-form input, .inquiry-form textarea, .chakra-copy-fallback {
+  background: #211a2b;
+  color: #f5ecdd;
+  border-color: rgb(218 183 111 / 38%);
+  color-scheme: dark;
+}
+.inquiry-form input[readonly] { background: #3b2d48; }
+.numerology-form input:focus-visible, .inquiry-form input:focus, .inquiry-form textarea:focus { outline-color: rgb(218 183 111 / 42%); }
+.cat-dialog { background: rgb(48 36 58 / 96%); }
+.cat-dialog::before { background: #30243a; border-color: rgb(218 183 111 / 36%); }
+.privacy-policy { border-color: rgb(218 183 111 / 24%); }
+.site-footer { background: #2c2037; border-top: 1px solid rgb(218 183 111 / 28%); }
+.footer-brand .brand-mark { background: #493753; }
+.draw-experience .draw-result { background: #30243a; color: #f5ecdd; }
+.draw-experience { background: radial-gradient(ellipse at 50% 48%, rgb(117 82 137 / 25%), transparent 58%), radial-gradient(ellipse at 15% 12%, rgb(218 183 111 / 12%), transparent 42%), #191321; }
+.draw-experience::backdrop { background: #191321; }
+.numerology-teaser { background: radial-gradient(circle at 8% 8%, rgb(191 132 160 / 15%), transparent 25%), radial-gradient(circle at 94% 12%, rgb(142 125 193 / 16%), transparent 24%), linear-gradient(145deg, #342640, #2a2036 60%, #30243a); border-color: rgb(218 183 111 / 36%); }
+.classroom-card { background: #3b2d48; color: #f5ecdd; border-color: rgb(218 183 111 / 28%); }
+a.classroom-card:hover { background: #51405c; border-color: #d8b66b; }
+.classroom-card-badge { color: #e4c17a; }
+.spread-reading-image { border-color: #493753; }
+.chakra-swatch { border-color: #30243a; }
+::selection { background: #b99456; color: #21182a; }
+
 /* Seven chakra classroom */
 .chakra-classroom { padding-block: 68px 74px; border-block: 1px solid rgb(192 147 173 / 20%); background: linear-gradient(180deg, #fcf7fb, #fff8eb 92%); }
 .chakra-inner { max-width: 1060px; }
